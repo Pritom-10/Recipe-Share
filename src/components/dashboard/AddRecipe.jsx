@@ -1,29 +1,29 @@
+// components/dashboard/AddRecipe.jsx
 "use client";
 
 import { imageUploader } from "@/lib/imageUpload";
-import {
-  Button,
-  Input,
-  Label,
-  Modal,
-  Select,
-  SelectItem,
-  Surface,
-  Textarea,
-  TextField,
-} from "@heroui/react";
+import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
 import { useState } from "react";
 import { addRecipe } from "@/lib/actions/recipe";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
+import { ChefHat, ImagePlus, Plus, Trash2, X } from "lucide-react";
 
 export function AddRecipe() {
   const { data: session } = authClient.useSession();
   const user = session?.user;
   const [ingredients, setIngredients] = useState([""]);
   const [instructions, setInstructions] = useState([""]);
+  const [imagePreview, setImagePreview] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const resetForm = (formEl) => {
+    formEl?.reset();
+    setIngredients([""]);
+    setInstructions([""]);
+    setImagePreview(null);
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +47,7 @@ export function AddRecipe() {
         category: formData.get("category"),
         cuisineType: formData.get("cuisineType"),
         difficultyLevel: formData.get("difficultyLevel"),
-        preparationTime: formData.get("preparationTime"),
+        preparationTime: Number(formData.get("preparationTime")) || 0,
 
         ingredients: ingredients.filter((item) => item.trim() !== ""),
         instructions: instructions.filter((item) => item.trim() !== ""),
@@ -55,15 +55,14 @@ export function AddRecipe() {
         userId: user?.id,
         userName: user?.name,
         userEmail: user?.email,
+        like: 0,
       };
 
       const result = await addRecipe(recipeData);
 
       if (result.success) {
         toast.success("Recipe added successfully!");
-        e.target.reset();
-        setIngredients([""]);
-        setInstructions([""]);
+        resetForm(e.target);
         setIsOpen(false);
       } else {
         toast.error(result.error || "Something went wrong");
@@ -76,110 +75,243 @@ export function AddRecipe() {
     }
   };
 
+  const addIngredient = () => setIngredients([...ingredients, ""]);
+  const removeIngredient = (index) =>
+    setIngredients(ingredients.filter((_, i) => i !== index));
+
+  const addInstruction = () => setInstructions([...instructions, ""]);
+  const removeInstruction = (index) =>
+    setInstructions(instructions.filter((_, i) => i !== index));
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
-      <Button variant="secondary">Add Recipe</Button>
+      <Button
+        variant="secondary"
+        className="!bg-gradient-to-r !from-orange-500 !to-rose-500 !text-white !border-0 shadow-md hover:shadow-lg"
+      >
+        <ChefHat className="w-4 h-4 mr-1.5" />
+        Add Recipe
+      </Button>
+
       <Modal.Backdrop>
         <Modal.Container placement="auto">
-          <Modal.Dialog className="sm:max-w-md">
+          <Modal.Dialog className="sm:max-w-lg">
             <Modal.CloseTrigger />
-            <Modal.Header>
-              <Modal.Heading>Add Recipe</Modal.Heading>
+            <Modal.Header className="border-b border-gray-100 pb-4">
+              <Modal.Heading className="text-xl font-bold flex items-center gap-2">
+                <ChefHat className="w-5 h-5 text-orange-500" />
+                Add New Recipe
+              </Modal.Heading>
             </Modal.Header>
-            <Modal.Body className="p-6">
+
+            <Modal.Body className="p-6 max-h-[75vh] overflow-y-auto">
               <Surface variant="default">
-                <form onSubmit={onSubmit} className="space-y-5">
+                <form onSubmit={onSubmit} className="space-y-6">
                   {/* Recipe Name */}
-                  <TextField name="recipeName" variant="secondary">
-                    <Label>Recipe Name</Label>
-                    <Input placeholder="Enter recipe name" />
+                  <TextField name="recipeName" variant="secondary" isRequired>
+                    <Label className="text-sm font-medium text-gray-700">
+                      Recipe Name
+                    </Label>
+                    <Input
+                      placeholder="e.g. Chicken Biryani (Dum Style)"
+                      className="rounded-xl"
+                    />
                   </TextField>
 
                   {/* Recipe Image */}
                   <div className="space-y-2">
-                    <Label>Recipe Image</Label>
-                    <Input
-                      name="recipeImage"
-                      type="file"
-                      accept="image/*"
-                      variant="bordered"
-                    />
+                    <Label className="text-sm font-medium text-gray-700">
+                      Recipe Image
+                    </Label>
+                    <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-orange-300 transition-colors bg-gray-50 relative overflow-hidden">
+                      {imagePreview ? (
+                        <img
+                          src={imagePreview}
+                          alt="preview"
+                          className="w-full h-40 object-cover rounded-xl"
+                        />
+                      ) : (
+                        <>
+                          <ImagePlus className="w-8 h-8 text-gray-400" />
+                          <span className="text-sm text-gray-400">
+                            Click to upload an image
+                          </span>
+                        </>
+                      )}
+                      <input
+                        name="recipeImage"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="hidden"
+                      />
+                    </label>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label>Category</Label>
-                    <select
-                      name="category"
-                      className="w-full rounded-xl border border-default-200 bg-default-100 px-3 py-2"
+                  {/* Category + Difficulty */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium text-gray-700">
+                        Category
+                      </Label>
+                      <select
+                        name="category"
+                        required
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                      >
+                        <option value="">Select</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Dinner">Dinner</option>
+                        <option value="Main Course">Main Course</option>
+                        <option value="Dessert">Dessert</option>
+                        <option value="Snack">Snack</option>
+                        <option value="Drink">Drink</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium text-gray-700">
+                        Difficulty
+                      </Label>
+                      <select
+                        name="difficultyLevel"
+                        required
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                      >
+                        <option value="">Select</option>
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Cuisine + Prep time */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <TextField
+                      name="cuisineType"
+                      variant="secondary"
+                      isRequired
                     >
-                      <option value="">Select Category</option>
-                      <option value="Breakfast">Breakfast</option>
-                      <option value="Lunch">Lunch</option>
-                      <option value="Dinner">Dinner</option>
-                      <option value="Dessert">Dessert</option>
-                      <option value="Snack">Snack</option>
-                      <option value="Drink">Drink</option>
-                    </select>
-                  </div>
+                      <Label className="text-sm font-medium text-gray-700">
+                        Cuisine
+                      </Label>
+                      <Input placeholder="e.g. Indian" className="rounded-xl" />
+                    </TextField>
 
-                  <TextField name="cuisineType" variant="secondary">
-                    <Label>Cuisine Type</Label>
-                    <Input placeholder="e.g. Bangladeshi, Italian, Chinese" />
-                  </TextField>
-
-                  <div className="space-y-2">
-                    <Label>Difficulty Level</Label>
-                    <select
-                      name="difficultyLevel"
-                      className="w-full rounded-xl border border-default-200 bg-default-100 px-3 py-2"
+                    <TextField
+                      name="preparationTime"
+                      variant="secondary"
+                      isRequired
                     >
-                      <option value="">Select Difficulty</option>
-                      <option value="Easy">Easy</option>
-                      <option value="Medium">Medium</option>
-                      <option value="Hard">Hard</option>
-                    </select>
+                      <Label className="text-sm font-medium text-gray-700">
+                        Prep Time (min)
+                      </Label>
+                      <Input
+                        type="number"
+                        placeholder="e.g. 80"
+                        className="rounded-xl"
+                      />
+                    </TextField>
                   </div>
 
-                  <TextField name="preparationTime" variant="secondary">
-                    <Label>Preparation Time</Label>
-                    <Input placeholder="e.g. 30 Minutes" />
-                  </TextField>
+                  {/* Ingredients */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-gray-700">
+                      Ingredients
+                    </Label>
+                    {ingredients.map((item, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <Input
+                          value={item}
+                          placeholder={`Ingredient ${index + 1}`}
+                          className="rounded-xl flex-1"
+                          onChange={(e) => {
+                            const updated = [...ingredients];
+                            updated[index] = e.target.value;
+                            setIngredients(updated);
+                          }}
+                        />
+                        {ingredients.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeIngredient(index)}
+                            className="p-2 text-gray-400 hover:text-rose-500 transition-colors"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={addIngredient}
+                      className="flex items-center gap-1.5 text-sm font-medium text-orange-600 hover:text-orange-700 mt-1"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add Ingredient
+                    </button>
+                  </div>
 
-                  {ingredients.map((item, index) => (
-                    <Input
-                      key={index}
-                      value={item}
-                      placeholder={`Ingredient ${index + 1}`}
-                      onChange={(e) => {
-                        const newIngredients = [...ingredients];
-                        newIngredients[index] = e.target.value;
-                        setIngredients(newIngredients);
-                      }}
-                    />
-                  ))}
+                  {/* Instructions */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-gray-700">
+                      Instructions
+                    </Label>
+                    {instructions.map((step, index) => (
+                      <div key={index} className="flex items-start gap-2">
+                        <span className="flex-shrink-0 w-7 h-7 mt-0.5 rounded-full bg-orange-100 text-orange-600 text-xs font-bold flex items-center justify-center">
+                          {index + 1}
+                        </span>
+                        <textarea
+                          value={step}
+                          placeholder={`Step ${index + 1}`}
+                          rows={2}
+                          className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
+                          onChange={(e) => {
+                            const updated = [...instructions];
+                            updated[index] = e.target.value;
+                            setInstructions(updated);
+                          }}
+                        />
+                        {instructions.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeInstruction(index)}
+                            className="p-2 text-gray-400 hover:text-rose-500 transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={addInstruction}
+                      className="flex items-center gap-1.5 text-sm font-medium text-orange-600 hover:text-orange-700 mt-1"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add Step
+                    </button>
+                  </div>
 
-                  {instructions.map((step, index) => (
-                    <Input
-                      key={index}
-                      value={step}
-                      placeholder={`Step ${index + 1}`}
-                      onChange={(e) => {
-                        const newSteps = [...instructions];
-                        newSteps[index] = e.target.value;
-                        setInstructions(newSteps);
-                      }}
-                    />
-                  ))}
-
-                  <Modal.Footer>
+                  <Modal.Footer className="border-t border-gray-100 pt-4">
                     <Button slot="close" variant="light">
                       Cancel
                     </Button>
 
                     <Button
-                      color="primary"
                       type="submit"
                       isDisabled={isSubmitting}
+                      className="!bg-gradient-to-r !from-orange-500 !to-rose-500 !text-white !border-0"
                     >
                       {isSubmitting ? "Adding..." : "Add Recipe"}
                     </Button>

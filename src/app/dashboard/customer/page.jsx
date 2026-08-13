@@ -1,164 +1,156 @@
-// "use client";
+// app/dashboard/customer/page.jsx
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
+import { stripe } from "@/lib/stripe";
+import { getRecipeStatus, confirmUpgrade } from "@/lib/actions/upgrade";
+import { getMyRecipesOverview } from "@/lib/actions/overview";
+import { AddRecipe } from "@/components/dashboard/AddRecipe";
+import Image from "next/image";
+import { Heart, ImageOff } from "lucide-react";
 
-// import { Crown, Heart, BookOpen, ThumbsUp, TrendingUp } from "lucide-react";
+const CustomerDashboard = async ({ searchParams }) => {
+  const params = await searchParams;
+  const headersList = await headers();
 
-// export default function CustomerOverview() {
+  const { token } = await auth.api.getToken({ headers: headersList });
 
-// //   const stats = {
-// //     totalRecipes: 42,
-// //     totalFavorites: 138,
-// //     totalLikes: 894,
-// //     isPremium: true,
-// //   };
+  // Stripe payment সাকসেস হলে প্ল্যান আপডেট করে দাও
+  if (params?.session_id) {
+    const checkoutSession = await stripe.checkout.sessions.retrieve(
+      params.session_id,
+    );
+    if (checkoutSession.status === "complete") {
+      await confirmUpgrade(token);
+    }
+  }
 
-// //   const cards = [
-// //     {
-// //       title: "Total Recipes",
-// //       value: stats.totalRecipes,
-// //       icon: BookOpen,
-// //       color: "from-violet-500 to-indigo-600",
-// //       bg: "bg-violet-50",
-// //       text: "text-violet-600",
-// //     },
-// //     {
-// //       title: "Total Favorites",
-// //       value: stats.totalFavorites,
-// //       icon: Heart,
-// //       color: "from-pink-500 to-rose-500",
-// //       bg: "bg-pink-50",
-// //       text: "text-pink-600",
-// //     },
-// //     {
-// //       title: "Likes Received",
-// //       value: stats.totalLikes,
-// //       icon: ThumbsUp,
-// //       color: "from-amber-500 to-orange-500",
-// //       bg: "bg-orange-50",
-// //       text: "text-orange-600",
-// //     },
-// //   ];
+  const status = await getRecipeStatus(token);
+  const overview = await getMyRecipesOverview(token);
 
-// //   return (
-// //     <section className="space-y-8">
-// //       {/* Header */}
-// //       <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-indigo-600 via-violet-600 to-purple-700 p-8 text-white shadow-xl">
-// //         <div className="absolute right-0 top-0 h-52 w-52 rounded-full bg-white/10 blur-3xl"></div>
-
-// //         <div className="relative flex flex-col justify-between gap-6 md:flex-row md:items-center">
-// //           <div>
-// //             <p className="text-sm uppercase tracking-[5px] text-indigo-100">
-// //               Dashboard
-// //             </p>
-
-// //             <h1 className="mt-3 text-4xl font-bold">Welcome Back 👋</h1>
-
-// //             <p className="mt-2 max-w-xl text-indigo-100">
-// //               Track your recipes, favorites and community engagement from one
-// //               beautiful dashboard.
-// //             </p>
-// //           </div>
-
-// //           {stats.isPremium ? (
-// //             <div className="flex items-center gap-3 rounded-2xl border border-yellow-300/40 bg-yellow-400/20 px-6 py-4 backdrop-blur-lg">
-// //               <Crown className="h-10 w-10 text-yellow-300" />
-// //               <div>
-// //                 <p className="font-semibold text-yellow-200">Premium Member</p>
-// //                 <p className="text-sm text-yellow-100">
-// //                   Exclusive Features Enabled
-// //                 </p>
-// //               </div>
-// //             </div>
-// //           ) : (
-// //             <div className="rounded-2xl bg-white/10 px-6 py-4 backdrop-blur-lg">
-// //               <p className="font-semibold">Free Plan</p>
-// //               <p className="text-sm text-indigo-100">
-// //                 Upgrade to unlock premium features.
-// //               </p>
-// //             </div>
-// //           )}
-// //         </div>
-// //       </div>
-
-// //       {/* Stats */}
-// //       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-// //         {cards.map((card) => {
-// //           const Icon = card.icon;
-
-// //           return (
-// //             <div
-// //               key={card.title}
-// //               className="group relative overflow-hidden rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
-// //             >
-// //               <div
-// //                 className={`absolute inset-x-0 top-0 h-1 bg-linear-to-r ${card.color}`}
-// //               />
-
-// //               <div className="flex items-center justify-between">
-// //                 <div>
-// //                   <p className="text-gray-500">{card.title}</p>
-
-// //                   <h2 className="mt-3 text-4xl font-bold text-gray-900">
-// //                     {card.value}
-// //                   </h2>
-
-// //                   <div className="mt-4 flex items-center gap-2 text-sm text-emerald-600">
-// //                     <TrendingUp size={16} />
-// //                     <span>Growing steadily</span>
-// //                   </div>
-// //                 </div>
-
-// //                 <div
-// //                   className={`${card.bg} rounded-2xl p-5 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110`}
-// //                 >
-// //                   <Icon className={`h-9 w-9 ${card.text}`} />
-// //                 </div>
-// //               </div>
-// //             </div>
-// //           );
-// //         })}
-// //       </div>
-
-// //       {/* Premium Feature */}
-// //       <div className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm">
-// //         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
-// //           <div>
-// //             <h2 className="text-2xl font-bold text-gray-900">
-// //               Membership Status
-// //             </h2>
-
-// //             <p className="mt-2 text-gray-500">
-// //               Your payment determines access to premium recipe features and
-// //               exclusive content.
-// //             </p>
-// //           </div>
-
-// //           {stats.isPremium ? (
-// //             <span className="rounded-full bg-linear-to-r from-yellow-400 to-orange-500 px-6 py-3 font-semibold text-white shadow-lg">
-// //               ⭐ Premium Active
-// //             </span>
-// //           ) : (
-// //             <button className="rounded-full bg-linear-to-r from-indigo-600 to-purple-600 px-6 py-3 font-semibold text-white transition hover:scale-105">
-// //               Upgrade Now
-// //             </button>
-// //           )}
-// //         </div>
-// //       </div>
-// //     </section>
-//   //   );
-  
-//   <div>
-//     overview
-//   </div>
-// }
-
-
-
-const CustomerOverview = () => {
   return (
-    <div>
-      Cstomer Overview
+    <div className="max-w-5xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold mb-6">Customer Dashboard</h1>
+
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-6 flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <p className="text-sm text-gray-500 mb-1">Recipes Added</p>
+          <p className="text-2xl font-bold">
+            {status.recipeCount}
+            {status.plan !== "premium" && (
+              <span className="text-gray-400 text-lg"> / {status.limit}</span>
+            )}
+          </p>
+          <span className="inline-block mt-2 text-xs font-semibold px-2.5 py-1 rounded-full bg-orange-100 text-orange-600">
+            {status.plan === "premium" ? "Premium" : "Free Plan"}
+          </span>
+        </div>
+
+        {status.plan !== "premium" && (
+          <form action="/api/upgrade-premium" method="POST">
+            <button
+              type="submit"
+              className="bg-gradient-to-r from-orange-500 to-rose-500 text-white font-semibold px-6 py-3 rounded-xl hover:shadow-lg transition-all"
+            >
+              Upgrade to Premium
+            </button>
+          </form>
+        )}
+      </div>
+
+      {/* Likes summary */}
+      <div className="grid sm:grid-cols-2 gap-6 mb-8">
+        <div className="bg-white border border-gray-200 rounded-2xl p-6">
+          <p className="text-sm text-gray-500 mb-1">Total Recipes Added</p>
+          <p className="text-3xl font-bold text-gray-900">
+            {overview.totalRecipes}
+          </p>
+        </div>
+        <div className="bg-gradient-to-r from-orange-50 to-rose-50 border border-orange-100 rounded-2xl p-6">
+          <p className="text-sm text-orange-600 mb-1">Total Likes Received</p>
+          <p className="text-3xl font-bold text-orange-600 flex items-center gap-2">
+            <Heart className="w-7 h-7 fill-orange-500 text-orange-500" />
+            {overview.totalLikes}
+          </p>
+        </div>
+      </div>
+
+      {status.limitReached ? (
+        <div className="bg-orange-50 border border-orange-200 rounded-2xl p-6 text-center mb-10">
+          <p className="text-gray-700 font-medium mb-3">
+            Free plan এ সর্বোচ্চ {status.limit}টি রেসিপি যোগ করা যায়। আরও
+            রেসিপি যোগ করতে Premium এ আপগ্রেড করো।
+          </p>
+          <form action="/api/upgrade-premium" method="POST">
+            <button
+              type="submit"
+              className="bg-gradient-to-r from-orange-500 to-rose-500 text-white font-semibold px-6 py-3 rounded-xl hover:shadow-lg transition-all"
+            >
+              Upgrade to Premium
+            </button>
+          </form>
+        </div>
+      ) : (
+        <div className="mb-10">
+          <AddRecipe />
+        </div>
+      )}
+
+      {/* Recipe-wise likes breakdown */}
+      <h2 className="text-xl font-bold text-gray-900 mb-4">
+        Recipe-wise Likes
+      </h2>
+
+      {overview.recipes.length === 0 ? (
+        <p className="text-gray-500 py-10 text-center">
+          তুমি এখনো কোনো রেসিপি যোগ করোনি।
+        </p>
+      ) : (
+        <div className="space-y-3">
+          {overview.recipes
+            .sort((a, b) => (b.like || 0) - (a.like || 0))
+            .map((recipe) => (
+              <div
+                key={recipe._id}
+                className="flex items-center gap-4 bg-white border border-gray-100 rounded-xl p-4 shadow-sm"
+              >
+                <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                  {recipe.recipeImage ? (
+                    <Image
+                      src={recipe.recipeImage}
+                      alt={recipe.recipeName}
+                      fill
+                      unoptimized
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center text-gray-300">
+                      <ImageOff className="w-6 h-6" />
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-gray-900 truncate">
+                    {recipe.recipeName}
+                  </p>
+                  {recipe.likedBy?.length > 0 && (
+                    <p className="text-xs text-gray-400 truncate">
+                      লাইক দিয়েছে:{" "}
+                      {recipe.likedBy.map((l) => l.userName).join(", ")}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-1.5 bg-rose-50 text-rose-600 px-3 py-1.5 rounded-full text-sm font-semibold flex-shrink-0">
+                  <Heart className="w-4 h-4 fill-rose-500" />
+                  {recipe.like || 0}
+                </div>
+              </div>
+            ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default CustomerOverview;
+export default CustomerDashboard;

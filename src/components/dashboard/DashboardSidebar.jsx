@@ -26,7 +26,7 @@ const DashboardSidebar = () => {
 
       {
         title: "My Favorites",
-        href: "/dashboard/customer/favorites",
+        href: "/dashboard/customer/my-favourites",
       },
       {
         title: "My purchased recipes",
