@@ -1,7 +1,6 @@
-// app/dashboard/customer/my-favourites/page.jsx
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import MyRecipesGrid from "../my-recipes/MyRecipesGrid";
+import FavouritesGrid from "./FavouritesGrid";
 import MyRecipesPagination from "../my-recipes/MyRecipesPagination";
 
 const SERVER_URL = process.env.SERVER_URL;
@@ -51,7 +50,7 @@ const MyFavouritesPage = async ({ searchParams }) => {
         </p>
       ) : (
         <>
-          <MyRecipesGrid recipes={data} />
+          <FavouritesGrid recipes={data} />
           <MyRecipesPagination
             currentPage={currentPage}
             totalPages={total_page}

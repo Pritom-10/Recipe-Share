@@ -189,7 +189,7 @@ export default async function Success({ searchParams }) {
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
-                  href="/dashboard/orders"
+                  href="/dashboard/my-purchased"
                   className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold py-4 px-6 rounded-2xl hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 text-center flex items-center justify-center gap-2"
                 >
                   View My Orders
@@ -208,10 +208,10 @@ export default async function Success({ searchParams }) {
                 <p className="text-sm text-gray-500">
                   Need help? Contact us at{" "}
                   <a
-                    href="mailto:orders@example.com"
+                    href="mailto:pritomshiro@gmail.com"
                     className="text-emerald-600 hover:text-emerald-700 font-medium underline-offset-2 hover:underline"
                   >
-                    orders@example.com
+                    pritomshiro@gmail.com
                   </a>
                 </p>
               </div>
