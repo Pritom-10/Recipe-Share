@@ -1,84 +1,38 @@
-// components/dashboard/AddRecipe.jsx
+// app/dashboard/customer/my-recipes/EditRecipeModal.jsx
 "use client";
 
 import { imageUploader } from "@/lib/imageUpload";
 import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
 import { useState } from "react";
-import { addRecipe } from "@/lib/actions/recipe";
+import { updateRecipe } from "@/lib/actions/recipe";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
-import { ChefHat, ImagePlus, Plus, Trash2, X } from "lucide-react";
+import { ImagePlus, Plus, X } from "lucide-react";
 
-export function AddRecipe() {
-  const { data: session } = authClient.useSession();
-  const user = session?.user;
-  const [ingredients, setIngredients] = useState([""]);
-  const [instructions, setInstructions] = useState([""]);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+const EditRecipeModal = ({ recipe, isOpen, onOpenChange, onUpdated }) => {
+  const [recipeName, setRecipeName] = useState(recipe.recipeName || "");
+  const [category, setCategory] = useState(recipe.category || "");
+  const [cuisineType, setCuisineType] = useState(recipe.cuisineType || "");
+  const [difficultyLevel, setDifficultyLevel] = useState(
+    recipe.difficultyLevel || "",
+  );
+  const [preparationTime, setPreparationTime] = useState(
+    recipe.preparationTime || "",
+  );
+
+  const [ingredients, setIngredients] = useState(
+    recipe.ingredients?.length ? recipe.ingredients : [""],
+  );
+  const [instructions, setInstructions] = useState(
+    recipe.instructions?.length ? recipe.instructions : [""],
+  );
+  const [imagePreview, setImagePreview] = useState(recipe.recipeImage || null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const resetForm = (formEl) => {
-    formEl?.reset();
-    setIngredients([""]);
-    setInstructions([""]);
-    setImagePreview(null);
-  };
-
-  const onSubmit = async (e) => {
-
- 
-
-  
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const formData = new FormData(e.target);
-
-    try {
-      let imageUrl = "";
-
-      const imageFile = formData.get("recipeImage");
-
-      if (imageFile && imageFile.size > 0) {
-        const imageRes = await imageUploader(imageFile);
-        imageUrl = imageRes.url;
-      }
-
-      const recipeData = {
-        recipeName: formData.get("recipeName"),
-        recipeImage: imageUrl,
-        category: formData.get("category"),
-        cuisineType: formData.get("cuisineType"),
-        difficultyLevel: formData.get("difficultyLevel"),
-        preparationTime: Number(formData.get("preparationTime")) || 0,
-
-        ingredients: ingredients.filter((item) => item.trim() !== ""),
-        instructions: instructions.filter((item) => item.trim() !== ""),
-
-        userId: user?.id,
-        userName: user?.name,
-        userEmail: user?.email,
-        like: 0,
-      };
-
-        const { data } = await authClient.token();
-        const token = data?.token;
-
-        const result = await addRecipe(recipeData, token);
-
-      if (result.success) {
-        toast.success("Recipe added successfully!");
-        resetForm(e.target);
-        setIsOpen(false);
-      } else {
-        toast.error(result.error || "Something went wrong");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong");
-    } finally {
-      setIsSubmitting(false);
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -90,54 +44,83 @@ export function AddRecipe() {
   const removeInstruction = (index) =>
     setInstructions(instructions.filter((_, i) => i !== index));
 
-  const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImagePreview(URL.createObjectURL(file));
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.target);
+
+    try {
+      let imageUrl = recipe.recipeImage || "";
+
+      const imageFile = formData.get("recipeImage");
+      if (imageFile && imageFile.size > 0) {
+        const imageRes = await imageUploader(imageFile);
+        imageUrl = imageRes.url;
+      }
+
+      const updateData = {
+        recipeName,
+        recipeImage: imageUrl,
+        category,
+        cuisineType,
+        difficultyLevel,
+        preparationTime: Number(preparationTime) || 0,
+        ingredients: ingredients.filter((item) => item.trim() !== ""),
+        instructions: instructions.filter((item) => item.trim() !== ""),
+      };
+
+      const { data } = await authClient.token();
+      const token = data?.token;
+
+      const result = await updateRecipe(recipe._id, updateData, token);
+
+      if (result.success) {
+        toast.success("রেসিপি আপডেট হয়েছে!");
+        onUpdated({ ...recipe, ...updateData });
+        onOpenChange(false);
+      } else {
+        toast.error(result.error || "কিছু একটা সমস্যা হয়েছে");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("কিছু একটা সমস্যা হয়েছে");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
-      <Button
-        variant="secondary"
-        className="!bg-gradient-to-r !from-orange-500 !to-rose-500 !text-white !border-0 shadow-md hover:shadow-lg"
-      >
-        <ChefHat className="w-4 h-4 mr-1.5" />
-        Add Recipe
-      </Button>
-
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <Modal.Backdrop>
         <Modal.Container placement="auto">
           <Modal.Dialog className="sm:max-w-lg">
             <Modal.CloseTrigger />
             <Modal.Header className="border-b border-gray-100 pb-4">
-              <Modal.Heading className="text-xl font-bold flex items-center gap-2">
-                <ChefHat className="w-5 h-5 text-orange-500" />
-                Add New Recipe
+              <Modal.Heading className="text-xl font-bold">
+                Edit Recipe
               </Modal.Heading>
             </Modal.Header>
 
             <Modal.Body className="p-6 max-h-[75vh] overflow-y-auto">
               <Surface variant="default">
                 <form onSubmit={onSubmit} className="space-y-6">
-                  {/* Recipe Name */}
                   <TextField name="recipeName" variant="secondary" isRequired>
                     <Label className="text-sm font-medium text-gray-700">
                       Recipe Name
                     </Label>
                     <Input
-                      placeholder="e.g. Chicken Biryani (Dum Style)"
+                      value={recipeName}
+                      onChange={(e) => setRecipeName(e.target.value)}
                       className="rounded-xl"
                     />
                   </TextField>
 
-                  {/* Recipe Image */}
                   <div className="space-y-2">
                     <Label className="text-sm font-medium text-gray-700">
                       Recipe Image
                     </Label>
-                    <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-orange-300 transition-colors bg-gray-50 relative overflow-hidden">
+                    <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-orange-300 transition-colors bg-gray-50">
                       {imagePreview ? (
                         <img
                           src={imagePreview}
@@ -162,14 +145,14 @@ export function AddRecipe() {
                     </label>
                   </div>
 
-                  {/* Category + Difficulty */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label className="text-sm font-medium text-gray-700">
                         Category
                       </Label>
                       <select
-                        name="category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
                         required
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                       >
@@ -189,7 +172,8 @@ export function AddRecipe() {
                         Difficulty
                       </Label>
                       <select
-                        name="difficultyLevel"
+                        value={difficultyLevel}
+                        onChange={(e) => setDifficultyLevel(e.target.value)}
                         required
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                       >
@@ -201,7 +185,6 @@ export function AddRecipe() {
                     </div>
                   </div>
 
-                  {/* Cuisine + Prep time */}
                   <div className="grid grid-cols-2 gap-4">
                     <TextField
                       name="cuisineType"
@@ -211,7 +194,11 @@ export function AddRecipe() {
                       <Label className="text-sm font-medium text-gray-700">
                         Cuisine
                       </Label>
-                      <Input placeholder="e.g. Indian" className="rounded-xl" />
+                      <Input
+                        value={cuisineType}
+                        onChange={(e) => setCuisineType(e.target.value)}
+                        className="rounded-xl"
+                      />
                     </TextField>
 
                     <TextField
@@ -224,13 +211,13 @@ export function AddRecipe() {
                       </Label>
                       <Input
                         type="number"
-                        placeholder="e.g. 80"
+                        value={preparationTime}
+                        onChange={(e) => setPreparationTime(e.target.value)}
                         className="rounded-xl"
                       />
                     </TextField>
                   </div>
 
-                  {/* Ingredients */}
                   <div className="space-y-2">
                     <Label className="text-sm font-medium text-gray-700">
                       Ingredients
@@ -251,7 +238,7 @@ export function AddRecipe() {
                           <button
                             type="button"
                             onClick={() => removeIngredient(index)}
-                            className="p-2 text-gray-400 hover:text-rose-500 transition-colors"
+                            className="p-2 text-gray-400 hover:text-rose-500"
                           >
                             <X className="w-4 h-4" />
                           </button>
@@ -268,7 +255,6 @@ export function AddRecipe() {
                     </button>
                   </div>
 
-                  {/* Instructions */}
                   <div className="space-y-2">
                     <Label className="text-sm font-medium text-gray-700">
                       Instructions
@@ -280,7 +266,6 @@ export function AddRecipe() {
                         </span>
                         <textarea
                           value={step}
-                          placeholder={`Step ${index + 1}`}
                           rows={2}
                           className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
                           onChange={(e) => {
@@ -293,9 +278,9 @@ export function AddRecipe() {
                           <button
                             type="button"
                             onClick={() => removeInstruction(index)}
-                            className="p-2 text-gray-400 hover:text-rose-500 transition-colors"
+                            className="p-2 text-gray-400 hover:text-rose-500"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <X className="w-4 h-4" />
                           </button>
                         )}
                       </div>
@@ -314,13 +299,12 @@ export function AddRecipe() {
                     <Button slot="close" variant="light">
                       Cancel
                     </Button>
-
                     <Button
                       type="submit"
                       isDisabled={isSubmitting}
                       className="!bg-gradient-to-r !from-orange-500 !to-rose-500 !text-white !border-0"
                     >
-                      {isSubmitting ? "Adding..." : "Add Recipe"}
+                      {isSubmitting ? "Saving..." : "Save Changes"}
                     </Button>
                   </Modal.Footer>
                 </form>
@@ -331,4 +315,6 @@ export function AddRecipe() {
       </Modal.Backdrop>
     </Modal>
   );
-}
+};
+
+export default EditRecipeModal;
