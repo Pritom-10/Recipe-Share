@@ -30,7 +30,7 @@ const DashboardSidebar = () => {
       },
       {
         title: "My purchased recipes",
-        href: "/dashboard/customer/purchased-recipes",
+        href: "/dashboard/customer/my-purchased",
       },
       {
         title: "Profile",

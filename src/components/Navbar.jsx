@@ -66,7 +66,7 @@ const Navbar = () => {
                 )}
               </svg>
             </button>
-            <Link href={'/'}>
+            <Link href={"/"}>
               <div className="flex items-center gap-3">
                 <Image
                   height={40}
@@ -93,7 +93,7 @@ const Navbar = () => {
               <Link href="/pricing">Pricing</Link>
             </li>
           </ul>
-         {!user && (
+          {!user && (
             <div className="hidden items-center gap-4 md:flex">
               <Link href="/signin">Login</Link>
               <Link href="/signup">
@@ -136,11 +136,8 @@ const Navbar = () => {
                     onAction={(key) => console.log(`Selected: ${key}`)}
                   >
                     <Dropdown.Item id="new-file" textValue="New file">
-                    
-                        <MdDashboard />
-                        <Label>Dashboard</Label>
-                  
-                  
+                      <MdDashboard />
+                      <Label>Dashboard</Label>
                     </Dropdown.Item>
 
                     <Dropdown.Item id="copy-link" textValue="Copy link">

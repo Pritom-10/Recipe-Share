@@ -18,9 +18,11 @@ const RecipeDetailsPage = async ({ params }) => {
   });
 
   if (!res.ok) {
+    const errorBody = await res.text();
+    console.log("Status:", res.status, "Body:", errorBody);
     return (
       <div className="text-center py-20 text-red-500">
-        রেসিপি লোড করতে সমস্যা হয়েছে।
+        রেসিপি লোড করতে সমস্যা হয়েছে। ({res.status})
       </div>
     );
   }
