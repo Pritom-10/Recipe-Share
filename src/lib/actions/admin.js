@@ -1,0 +1,77 @@
+"use server";
+
+const SERVER_URL = process.env.SERVER_URL;
+
+export const getUsers = async (token, page = 1, search = "") => {
+  const res = await fetch(
+    `${SERVER_URL}/admin/users?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+    {
+      headers: { authorization: `Bearer ${token}` },
+      cache: "no-store",
+    },
+  );
+  return await res.json();
+};
+
+export const blockUser = async (id, token) => {
+  const res = await fetch(`${SERVER_URL}/admin/users/${id}/block`, {
+    method: "PATCH",
+    headers: { authorization: `Bearer ${token}` },
+  });
+  return await res.json();
+};
+
+export const unblockUser = async (id, token) => {
+  const res = await fetch(`${SERVER_URL}/admin/users/${id}/unblock`, {
+    method: "PATCH",
+    headers: { authorization: `Bearer ${token}` },
+  });
+  return await res.json();
+};
+
+export const getAdminRecipes = async (token, page = 1, search = "") => {
+  const res = await fetch(
+    `${SERVER_URL}/admin/recipes?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+    {
+      headers: { authorization: `Bearer ${token}` },
+      cache: "no-store",
+    },
+  );
+  return await res.json();
+};
+
+export const adminDeleteRecipe = async (id, token) => {
+  const res = await fetch(`${SERVER_URL}/admin/recipes/${id}`, {
+    method: "DELETE",
+    headers: { authorization: `Bearer ${token}` },
+  });
+  return await res.json();
+};
+
+export const adminUpdateRecipe = async (id, data, token) => {
+  const res = await fetch(`${SERVER_URL}/admin/recipes/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  return await res.json();
+};
+
+export const toggleFeatureRecipe = async (id, token) => {
+  const res = await fetch(`${SERVER_URL}/admin/recipes/${id}/feature`, {
+    method: "PATCH",
+    headers: { authorization: `Bearer ${token}` },
+  });
+  return await res.json();
+};
+
+export const getAdminOverview = async (token) => {
+  const res = await fetch(`${SERVER_URL}/admin/overview`, {
+    headers: { authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  return await res.json();
+};

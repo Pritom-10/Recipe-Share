@@ -49,7 +49,7 @@ const DashboardSidebar = () => {
       },
       {
         title: "Manage Recipes",
-        href: "/dashboard/admin/manage-recipes",
+        href: "/dashboard/admin/recipes",
       },
       {
         title: "Reports",
