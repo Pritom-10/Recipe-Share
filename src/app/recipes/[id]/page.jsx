@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { ChefHat, Clock, Gauge, ImageOff, ShoppingBag } from "lucide-react";
 import RecipeActions from "./RecipeActions";
+import ReportButton from "./ReportButton";
 
 const SERVER_URL = process.env.SERVER_URL;
 
@@ -90,12 +91,15 @@ const RecipeDetailsPage = async ({ params }) => {
           )}
         </div>
 
-        <RecipeActions
-          recipeId={recipe._id}
-          initialLike={recipe.like}
-          initialIsLiked={recipe.isLiked}
-          initialIsFavourited={recipe.isFavourited}
-        />
+        <div className="flex gap-3">
+          <RecipeActions
+            recipeId={recipe._id}
+            initialLike={recipe.like}
+            initialIsLiked={recipe.isLiked}
+            initialIsFavourited={recipe.isFavourited}
+          />
+          <ReportButton recipeId={recipe._id} />
+        </div>
       </div>
 
       <div className="grid sm:grid-cols-5 gap-10">

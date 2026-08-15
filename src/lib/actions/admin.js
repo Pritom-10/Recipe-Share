@@ -60,6 +60,26 @@ export const adminUpdateRecipe = async (id, data, token) => {
   return await res.json();
 };
 
+export const getAdminReports = async (token, page = 1) => {
+  const res = await fetch(`${SERVER_URL}/admin/reports?page=${page}&limit=10`, {
+    headers: { authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  return await res.json();
+};
+
+export const updateReportStatus = async (id, status, token) => {
+  const res = await fetch(`${SERVER_URL}/admin/reports/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status }),
+  });
+  return await res.json();
+};
+
 export const toggleFeatureRecipe = async (id, token) => {
   const res = await fetch(`${SERVER_URL}/admin/recipes/${id}/feature`, {
     method: "PATCH",
