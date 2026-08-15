@@ -1,3 +1,4 @@
+// app/dashboard/admin/recipes/RecipesTable.jsx (প্রতিস্থাপন করো)
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
@@ -18,6 +19,7 @@ const RecipesTable = ({
   const [recipes, setRecipes] = useState(initialRecipes);
   const [search, setSearch] = useState(initialSearch || "");
   const [editingRecipe, setEditingRecipe] = useState(null);
+  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
@@ -86,7 +88,9 @@ const RecipesTable = ({
         const result = await toggleFeatureRecipe(recipe._id, token);
         if (!result.success) throw new Error();
         toast.success(
-          nextFeatured ? "Featured এ যোগ হয়েছে" : "Featured থেকে সরানো হয়েছে",
+          nextFeatured
+            ? `"${recipe.recipeName}" Featured এ যোগ হয়েছে`
+            : `"${recipe.recipeName}" Featured থেকে সরানো হয়েছে`,
         );
       } catch (error) {
         setRecipes((prev) =>
@@ -105,20 +109,42 @@ const RecipesTable = ({
     );
   };
 
+  const featuredCount = recipes.filter((r) => r.featured).length;
+  const visibleRecipes = showFeaturedOnly
+    ? recipes.filter((r) => r.featured)
+    : recipes;
+
   return (
     <div>
-      <form onSubmit={handleSearch} className="max-w-sm mb-6">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by recipe name..."
-            className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+      {/* Search + Featured filter */}
+      <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+        <form onSubmit={handleSearch} className="max-w-sm flex-1 min-w-[220px]">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by recipe name..."
+              className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+          </div>
+        </form>
+
+        <button
+          onClick={() => setShowFeaturedOnly((prev) => !prev)}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-colors ${
+            showFeaturedOnly
+              ? "bg-amber-50 border-amber-200 text-amber-600"
+              : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
+          }`}
+        >
+          <Star
+            className={`w-4 h-4 ${showFeaturedOnly ? "fill-amber-500" : ""}`}
           />
-        </div>
-      </form>
+          Featured ({featuredCount})
+        </button>
+      </div>
 
       <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
         <table className="w-full text-sm">
@@ -133,15 +159,22 @@ const RecipesTable = ({
             </tr>
           </thead>
           <tbody>
-            {recipes.length === 0 ? (
+            {visibleRecipes.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center py-10 text-gray-400">
-                  কোনো রেসিপি পাওয়া যায়নি।
+                  {showFeaturedOnly
+                    ? "এখনো কোনো রেসিপি Featured করা হয়নি।"
+                    : "কোনো রেসিপি পাওয়া যায়নি।"}
                 </td>
               </tr>
             ) : (
-              recipes.map((recipe) => (
-                <tr key={recipe._id} className="border-t border-gray-100">
+              visibleRecipes.map((recipe) => (
+                <tr
+                  key={recipe._id}
+                  className={`border-t border-gray-100 ${
+                    recipe.featured ? "bg-amber-50/40" : ""
+                  }`}
+                >
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-3">
                       <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
@@ -173,16 +206,16 @@ const RecipesTable = ({
                     <button
                       onClick={() => handleToggleFeature(recipe)}
                       disabled={isPending}
-                      className={`p-1.5 rounded-full transition-colors ${
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                         recipe.featured
-                          ? "text-amber-500"
-                          : "text-gray-300 hover:text-amber-400"
+                          ? "bg-amber-100 text-amber-700 hover:bg-amber-200"
+                          : "bg-gray-50 text-gray-500 hover:bg-gray-100"
                       }`}
-                      title={recipe.featured ? "Unfeature" : "Feature"}
                     >
                       <Star
-                        className={`w-5 h-5 ${recipe.featured ? "fill-amber-500" : ""}`}
+                        className={`w-3.5 h-3.5 ${recipe.featured ? "fill-amber-600" : ""}`}
                       />
+                      {recipe.featured ? "Featured" : "Feature it"}
                     </button>
                   </td>
                   <td className="px-5 py-3 text-right">
@@ -209,7 +242,7 @@ const RecipesTable = ({
         </table>
       </div>
 
-      {totalPage > 1 && (
+      {!showFeaturedOnly && totalPage > 1 && (
         <div className="flex justify-center items-center gap-2 mt-6">
           {Array.from({ length: totalPage }).map((_, i) => (
             <button

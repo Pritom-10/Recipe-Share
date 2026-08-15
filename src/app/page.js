@@ -1,9 +1,10 @@
 import BannerSlider from "@/components/Banner";
-
+import FeaturedRecipes from "./FeaturedRecipes";
 export default function Home() {
   return (
     <div>
-      <BannerSlider/>
+      <BannerSlider />
+      <FeaturedRecipes />
     </div>
   );
 }

@@ -1,5 +1,8 @@
+// app/(auth)/signup/page.jsx
 "use client";
+
 import { authClient } from "@/lib/auth-client";
+import { imageUploader } from "@/lib/imageUpload";
 import {
   Button,
   Description,
@@ -9,85 +12,172 @@ import {
   Input,
   Label,
   Surface,
-  ListBox,
-  Select,
   TextField,
 } from "@heroui/react";
-import { redirect } from "next/navigation";
-import React from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { ChefHat, ImagePlus, User } from "lucide-react";
 
 export default function SignUpPage() {
+  const router = useRouter();
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
     const formData = new FormData(e.currentTarget);
-    const user = Object.fromEntries(formData.entries());
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const imageFile = formData.get("image");
 
-    await authClient.signUp.email({
-      ...user,
-      plan: "free",
-    });
+    try {
+      let imageUrl = "";
 
-    redirect('/')
+      if (imageFile && imageFile.size > 0) {
+        const imageRes = await imageUploader(imageFile);
+        imageUrl = imageRes.url;
+      }
+
+      const { error } = await authClient.signUp.email({
+        name,
+        email,
+        password,
+        image: imageUrl,
+        plan: "free",
+      });
+
+      if (error) {
+        toast.error(error.message || "সাইন আপ করতে সমস্যা হয়েছে");
+        return;
+      }
+
+      toast.success("অ্যাকাউন্ট তৈরি হয়েছে!");
+      router.push("/");
+    } catch (error) {
+      console.error(error);
+      toast.error("কিছু একটা সমস্যা হয়েছে");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="flex items-center justify-center rounded-3xl bg-surface p-6 max-w-2xl mx-auto border mt-5">
-      <Surface className="w-full">
-        <Form onSubmit={onSubmit}>
-          <Fieldset className="w-full">
-            <Fieldset.Legend>Signup</Fieldset.Legend>
-            <Description>Create your account</Description>
-            <Fieldset.Group>
-              <TextField isRequired name="name">
-                <Label>Name</Label>
-                <Input placeholder="John Doe" variant="secondary" />
-                <FieldError />
-              </TextField>
+    <div className="min-h-[85vh] flex items-center justify-center px-4 py-10 relative overflow-hidden">
+      {/* Decorative gradient blobs */}
+      <div className="absolute top-0 left-1/4 w-72 h-72 bg-orange-300/30 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-rose-300/30 rounded-full blur-3xl" />
 
-              <TextField name="image" type="url">
-                <Label>Image URL</Label>
-                <Input placeholder="Image URL" variant="secondary" />
-                <FieldError />
-              </TextField>
-              <TextField isRequired name="email" type="email">
-                <Label>Email</Label>
-                <Input placeholder="john@example.com" variant="secondary" />
-                <FieldError />
-              </TextField>
+      <div className="relative w-full max-w-md">
+        <div className="backdrop-blur-xl bg-white/60 border border-white/40 rounded-3xl shadow-xl p-8">
+          <div className="flex flex-col items-center mb-6">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 flex items-center justify-center mb-3 shadow-lg">
+              <ChefHat className="w-6 h-6 text-white" />
+            </div>
+            <h1 className="text-2xl font-bold text-gray-900">Create Account</h1>
+            <p className="text-sm text-gray-500 mt-1">
+              Join and start sharing your recipes
+            </p>
+          </div>
 
-              <TextField isRequired name="password" type="password">
-                <Label>Password</Label>
-                <Input placeholder="Password" variant="secondary" />
-                <FieldError />
-              </TextField>
+          <Form onSubmit={onSubmit}>
+            <Fieldset className="w-full">
+              <Fieldset.Group className="space-y-4">
+                {/* Profile image upload */}
+                <div className="flex justify-center mb-2">
+                  <label className="relative cursor-pointer group">
+                    <div className="w-20 h-20 rounded-full overflow-hidden bg-white/70 border-2 border-dashed border-orange-200 flex items-center justify-center">
+                      {imagePreview ? (
+                        <img
+                          src={imagePreview}
+                          alt="preview"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <User className="w-8 h-8 text-orange-300" />
+                      )}
+                    </div>
+                    <div className="absolute inset-0 rounded-full bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <ImagePlus className="w-5 h-5 text-white" />
+                    </div>
+                    <input
+                      name="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
 
-              {/* <Select isRequired name="role" placeholder="Select one">
-                <Label>Signup As</Label>
-                <Select.Trigger>
-                  <Select.Value />
-                  <Select.Indicator />
-                </Select.Trigger>
-                <Select.Popover>
-                  <ListBox>
-                    <ListBox.Item id="buyer" textValue="buyer">
-                      Buyer
-                      <ListBox.ItemIndicator />
-                    </ListBox.Item>
-                    <ListBox.Item id="seller" textValue="seller">
-                      Seller
-                      <ListBox.ItemIndicator />
-                    </ListBox.Item>
-                  </ListBox>
-                </Select.Popover>
-              </Select> */}
-            </Fieldset.Group>
+                <TextField isRequired name="name">
+                  <Label className="text-sm font-medium text-gray-700">
+                    Name
+                  </Label>
+                  <Input
+                    placeholder="John Doe"
+                    variant="secondary"
+                    className="bg-white/70 rounded-xl"
+                  />
+                  <FieldError />
+                </TextField>
 
-            <Button type="submit" className={"w-full"}>
-              Signup
-            </Button>
-          </Fieldset>
-        </Form>
-      </Surface>
+                <TextField isRequired name="email" type="email">
+                  <Label className="text-sm font-medium text-gray-700">
+                    Email
+                  </Label>
+                  <Input
+                    placeholder="john@example.com"
+                    variant="secondary"
+                    className="bg-white/70 rounded-xl"
+                  />
+                  <FieldError />
+                </TextField>
+
+                <TextField isRequired name="password" type="password">
+                  <Label className="text-sm font-medium text-gray-700">
+                    Password
+                  </Label>
+                  <Input
+                    placeholder="Password"
+                    variant="secondary"
+                    className="bg-white/70 rounded-xl"
+                  />
+                  <FieldError />
+                </TextField>
+              </Fieldset.Group>
+
+              <Button
+                type="submit"
+                isDisabled={isSubmitting}
+                className="!w-full !mt-6 !bg-gradient-to-r !from-orange-500 !to-rose-500 !text-white !border-0 !rounded-xl !py-3 hover:!shadow-lg transition-all"
+              >
+                {isSubmitting ? "Creating account..." : "Sign Up"}
+              </Button>
+            </Fieldset>
+          </Form>
+
+          <p className="text-center text-sm text-gray-500 mt-6">
+            Already have an account?{" "}
+            <a
+              href="/signin"
+              className="text-orange-600 font-medium hover:underline"
+            >
+              Sign In
+            </a>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

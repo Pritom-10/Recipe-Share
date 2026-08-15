@@ -4,7 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { Avatar, Button, Dropdown, Label } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
@@ -15,15 +15,29 @@ const Navbar = () => {
 
   const { data: session } = authClient.useSession();
   const user = session?.user;
-    const pathname = usePathname();
+  const role = user?.role || "customer";
+  const dashboardHref =
+    role === "admin" ? "/dashboard/admin" : "/dashboard/customer";
 
-    if (pathname.includes("dashboard")) {
-      return null;
-    }
+  const pathname = usePathname();
+  const router = useRouter();
+
+  if (pathname.includes("dashboard")) {
+    return null;
+  }
 
   const handleSignOut = async () => {
     await authClient.signOut();
   };
+
+  const handleMenuAction = (key) => {
+    if (key === "dashboard") {
+      router.push(dashboardHref);
+    } else if (key === "profile") {
+      router.push("/dashboard/profile");
+    }
+  };
+
   return (
     <div>
       <div className="bg-black p-1 text-white">
@@ -132,22 +146,20 @@ const Navbar = () => {
                       </div>
                     </div>
                   </div>
-                  <Dropdown.Menu
-                    onAction={(key) => console.log(`Selected: ${key}`)}
-                  >
-                    <Dropdown.Item id="new-file" textValue="New file">
+                  <Dropdown.Menu onAction={handleMenuAction}>
+                    <Dropdown.Item id="dashboard" textValue="Dashboard">
                       <MdDashboard />
                       <Label>Dashboard</Label>
                     </Dropdown.Item>
 
-                    <Dropdown.Item id="copy-link" textValue="Copy link">
+                    <Dropdown.Item id="profile" textValue="Profile">
                       <CgProfile />
                       <Label>Profile</Label>
                     </Dropdown.Item>
 
                     <Dropdown.Item
-                      id="delete-file"
-                      textValue="Delete file"
+                      id="logout"
+                      textValue="Logout"
                       variant="danger"
                       onClick={handleSignOut}
                     >
@@ -164,26 +176,47 @@ const Navbar = () => {
           <div className="border-t border-separator md:hidden">
             <ul className="flex flex-col gap-2 p-4">
               <li>
-                <Link href="#" className="block py-2">
-                  Features
+                <Link href="/recipes" className="block py-2">
+                  Browse Recipes
                 </Link>
               </li>
+              {user && (
+                <li>
+                  <Link
+                    href={dashboardHref}
+                    className="block py-2 font-medium text-accent"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              )}
               <li>
-                <Link href="#" className="block py-2 font-medium text-accent">
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="block py-2">
+                <Link href="/pricing" className="block py-2">
                   Pricing
                 </Link>
               </li>
-              <li className="mt-4 flex flex-col gap-2 border-t border-separator pt-4">
-                <Link href="#" className="block py-2">
-                  Login
-                </Link>
-                <Button className="w-full">Sign Up</Button>
-              </li>
+              {!user ? (
+                <li className="mt-4 flex flex-col gap-2 border-t border-separator pt-4">
+                  <Link href="/signin" className="block py-2">
+                    Login
+                  </Link>
+                  <Link href="/signup">
+                    <Button className="w-full">Sign Up</Button>
+                  </Link>
+                </li>
+              ) : (
+                <li className="mt-4 flex flex-col gap-2 border-t border-separator pt-4">
+                  <Link href="/dashboard/profile" className="block py-2">
+                    Profile
+                  </Link>
+                  <button
+                    onClick={handleSignOut}
+                    className="block py-2 text-left text-danger"
+                  >
+                    Logout
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
         )}

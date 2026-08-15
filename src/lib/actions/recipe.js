@@ -17,6 +17,13 @@ export const addRecipe = async (data, token) => {
   return result;
 };
 
+export const getFeaturedRecipes = async () => {
+  const res = await fetch(`${SERVER_URL}/recipes/featured/list`, {
+    cache: "no-store",
+  });
+  return await res.json();
+};
+
 export const updateRecipe = async (id, recipeData, token) => {
   const res = await fetch(`${SERVER_URL}/recipes/${id}`, {
     method: "PATCH",
