@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,12 +19,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.className} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${inter.className} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <body>
-        <Navbar />
-        <main className="min-h-screen">{children}</main>
-        <Toaster position="top-center" />
-        <Footer />
+        <ThemeProvider>
+          <Navbar />
+          <main className="min-h-screen">{children}</main>
+          <Toaster position="top-center" />
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

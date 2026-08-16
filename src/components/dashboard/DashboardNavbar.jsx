@@ -1,6 +1,6 @@
 // components/dashboard/DashboardNavbar.jsx
 "use client";
-
+import ThemeToggle from "@/components/ThemeToggle";
 import { authClient } from "@/lib/auth-client";
 import { Avatar, Dropdown, Label } from "@heroui/react";
 import { useRouter } from "next/navigation";
@@ -42,6 +42,7 @@ const DashboardNavbar = () => {
         </div>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           <button className="p-2.5 rounded-xl bg-white/70 border border-white/60 text-gray-500 hover:text-orange-600 hover:bg-white transition-colors shadow-sm">
             <Bell className="w-4.5 h-4.5" />
           </button>

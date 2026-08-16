@@ -1,6 +1,6 @@
 
 "use client";
-
+import ThemeToggle from "@/components/ThemeToggle";
 import { authClient } from "@/lib/auth-client";
 import { Avatar, Button, Dropdown, Label } from "@heroui/react";
 import Link from "next/link";
@@ -50,9 +50,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="bg-black p-1 text-white">
-       
-      </div>
+      <div className="bg-black p-1 text-white"></div>
 
       <nav className="fixed top-0 left-0 right-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
         <header className="mx-auto flex h-16 max-w-7xl items-center justify-between px-2">
@@ -122,6 +120,7 @@ const Navbar = () => {
 
           {!user && (
             <div className="hidden items-center gap-3 md:flex">
+              <ThemeToggle />
               <Link
                 href="/signin"
                 className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
@@ -138,6 +137,7 @@ const Navbar = () => {
 
           {user && (
             <div className="hidden items-center gap-4 md:flex">
+              <ThemeToggle />
               <Dropdown>
                 <Dropdown.Trigger className="rounded-full">
                   <Avatar size="sm" aria-label="Menu">
