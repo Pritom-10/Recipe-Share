@@ -17,6 +17,13 @@ export const addRecipe = async (data, token) => {
   return result;
 };
 
+export const getPopularRecipes = async () => {
+  const res = await fetch(`${SERVER_URL}/recipes/popular/list`, {
+    cache: "no-store",
+  });
+  return await res.json();
+};
+
 export const getFeaturedRecipes = async () => {
   const res = await fetch(`${SERVER_URL}/recipes/featured/list`, {
     cache: "no-store",

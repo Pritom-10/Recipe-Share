@@ -1,14 +1,15 @@
+
 "use client";
 
 import { authClient } from "@/lib/auth-client";
 import { Avatar, Button, Dropdown, Label } from "@heroui/react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { MdDashboard } from "react-icons/md";
+import Logo from "@/components/Logo";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,9 +27,7 @@ const Navbar = () => {
     return null;
   }
 
-  const handleSignOut = async () => {
-    await authClient.signOut();
-  };
+
 
   const handleMenuAction = (key) => {
     if (key === "dashboard") {
@@ -38,16 +37,24 @@ const Navbar = () => {
     }
   };
 
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    router.push("/");
+  };
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/recipes", label: "Browse Recipes" },
+  ];
+
   return (
     <div>
       <div className="bg-black p-1 text-white">
-        <marquee>
-          🎉 Avail Up to 4% Extra Discount with Bank Transfer | 💳 Cash on
-          Delivery Available | 🚚 Fast Delivery in 2–3 Days.
-        </marquee>
+       
       </div>
 
-      <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
+      <nav className="fixed top-0 left-0 right-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
         <header className="mx-auto flex h-16 max-w-7xl items-center justify-between px-2">
           <div className="flex items-center gap-4">
             <button
@@ -81,37 +88,50 @@ const Navbar = () => {
               </svg>
             </button>
             <Link href={"/"}>
-              <div className="flex items-center gap-3">
-                <Image
-                  height={40}
-                  width={40}
-                  loading="eager"
-                  src="/logo.webp"
-                  alt="logo"
-                />
-                <p className="font-bold">Tech Bazaar</p>
+              <div className="flex items-center gap-2.5">
+                <Logo className="w-9 h-9" />
+                <span className="text-lg font-bold tracking-tight text-gray-900">
+                  Tech Bazaar
+                </span>
               </div>
             </Link>
           </div>
-          <ul className="hidden items-center gap-4 md:flex">
-            <li>
-              <Link
-                href="/recipes"
-                className="font-medium text-accent"
-                aria-current="page"
-              >
-                Browse Recipes
-              </Link>
-            </li>
-            <li>
-              <Link href="/pricing">Pricing</Link>
-            </li>
+
+          <ul className="hidden items-center gap-1 md:flex">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={`relative px-4 py-2 text-sm font-medium tracking-wide transition-colors ${
+                      isActive
+                        ? "text-orange-600"
+                        : "text-gray-600 hover:text-gray-900"
+                    }`}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-4 right-4 h-0.5 rounded-full bg-gradient-to-r from-orange-500 to-rose-500" />
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
+
           {!user && (
-            <div className="hidden items-center gap-4 md:flex">
-              <Link href="/signin">Login</Link>
+            <div className="hidden items-center gap-3 md:flex">
+              <Link
+                href="/signin"
+                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                Login
+              </Link>
               <Link href="/signup">
-                <Button>Sign Up</Button>
+                <Button className="!bg-gradient-to-r !from-orange-500 !to-rose-500 !text-white !border-0 !rounded-xl !px-5 hover:!shadow-md transition-all">
+                  Sign Up
+                </Button>
               </Link>
             </div>
           )}
@@ -172,46 +192,55 @@ const Navbar = () => {
             </div>
           )}
         </header>
+
         {isMenuOpen && (
           <div className="border-t border-separator md:hidden">
-            <ul className="flex flex-col gap-2 p-4">
-              <li>
-                <Link href="/recipes" className="block py-2">
-                  Browse Recipes
-                </Link>
-              </li>
+            <ul className="flex flex-col gap-1 p-4">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="block py-2.5 text-sm font-medium text-gray-700"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
               {user && (
                 <li>
                   <Link
                     href={dashboardHref}
-                    className="block py-2 font-medium text-accent"
+                    className="block py-2.5 text-sm font-medium text-orange-600"
                   >
                     Dashboard
                   </Link>
                 </li>
               )}
-              <li>
-                <Link href="/pricing" className="block py-2">
-                  Pricing
-                </Link>
-              </li>
               {!user ? (
-                <li className="mt-4 flex flex-col gap-2 border-t border-separator pt-4">
-                  <Link href="/signin" className="block py-2">
+                <li className="mt-3 flex flex-col gap-2 border-t border-separator pt-4">
+                  <Link
+                    href="/signin"
+                    className="block py-2 text-sm font-medium"
+                  >
                     Login
                   </Link>
                   <Link href="/signup">
-                    <Button className="w-full">Sign Up</Button>
+                    <Button className="!w-full !bg-gradient-to-r !from-orange-500 !to-rose-500 !text-white !border-0 !rounded-xl">
+                      Sign Up
+                    </Button>
                   </Link>
                 </li>
               ) : (
-                <li className="mt-4 flex flex-col gap-2 border-t border-separator pt-4">
-                  <Link href="/dashboard/profile" className="block py-2">
+                <li className="mt-3 flex flex-col gap-2 border-t border-separator pt-4">
+                  <Link
+                    href="/dashboard/profile"
+                    className="block py-2 text-sm font-medium"
+                  >
                     Profile
                   </Link>
                   <button
                     onClick={handleSignOut}
-                    className="block py-2 text-left text-danger"
+                    className="block py-2 text-left text-sm font-medium text-danger"
                   >
                     Logout
                   </button>
@@ -221,6 +250,7 @@ const Navbar = () => {
           </div>
         )}
       </nav>
+      <div className="h-16" />
     </div>
   );
 };

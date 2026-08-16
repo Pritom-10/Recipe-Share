@@ -1,91 +1,105 @@
+// components/dashboard/DashboardNavbar.jsx
 "use client";
 
 import { authClient } from "@/lib/auth-client";
 import { Avatar, Dropdown, Label } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import { Bell } from "lucide-react";
 import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
-import { MdDashboard } from "react-icons/md";
 
 const DashboardNavbar = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
+  const router = useRouter();
 
   const handleSignOut = async () => {
     await authClient.signOut();
+    router.push("/");
   };
 
+  const handleMenuAction = (key) => {
+    if (key === "profile") {
+      router.push("/dashboard/customer/profile");
+    }
+  };
+
+  const greetingName = user?.name?.split(" ")[0] || "there";
+
   return (
-    <div>
-      <header className="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-sm">
-        <div className="flex items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-4">
-            <h2 className="text-lg font-semibold text-gray-800">
-              Welcome back!
+    <header className="sticky top-0 z-10 backdrop-blur-2xl bg-white/50 border-b border-white/60 shadow-sm">
+      <div className="flex items-center justify-between px-6 py-4">
+        <div className="flex items-center gap-3">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">
+              Welcome back, {greetingName}
+              <span className="ml-1">👋</span>
             </h2>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <button className="p-2 text-gray-600 rounded-lg hover:bg-gray-100">
-              🔔
-            </button>
-            <div className="flex items-center gap-3">
-              {user && (
-                <div className="hidden items-center gap-4 md:flex">
-                  <Dropdown>
-                    <Dropdown.Trigger className="rounded-full">
-                      <Avatar size="sm" aria-label="Menu">
-                        <Avatar.Image
-                          referrerPolicy="no-referrer"
-                          alt="John Doe"
-                          src={user?.image}
-                        />
-                        <Avatar.Fallback>{user.name.charAt(0)}</Avatar.Fallback>
-                      </Avatar>
-                    </Dropdown.Trigger>
-                    <Dropdown.Popover>
-                      <div className="px-3 pt-3 pb-1">
-                        <div className="flex items-center gap-2">
-                          <Avatar size="sm">
-                            <Avatar.Image alt={user?.name} src={user?.image} />
-                            <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
-                          </Avatar>
-                          <div className="flex flex-col gap-0">
-                            <p className="text-sm leading-5 font-medium">
-                              {user?.name}
-                            </p>
-                            <p className="text-xs leading-none text-muted">
-                              {user?.email}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <Dropdown.Menu
-                        onAction={(key) => console.log(`Selected: ${key}`)}
-                      >
-                        <Dropdown.Item id="copy-link" textValue="Copy link">
-                          <CgProfile />
-                          <Label>Profile</Label>
-                        </Dropdown.Item>
-
-                        <Dropdown.Item
-                          id="delete-file"
-                          textValue="Delete file"
-                          variant="danger"
-                          onClick={handleSignOut}
-                        >
-                          <BiLogOut />
-                          <Label>Logout</Label>
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown.Popover>
-                  </Dropdown>
-                </div>
-              )}
-            </div>
+            <p className="text-xs text-gray-500">
+              Here&apos;s what&apos;s happening today.
+            </p>
           </div>
         </div>
-      </header>
-    </div>
+
+        <div className="flex items-center gap-3">
+          <button className="p-2.5 rounded-xl bg-white/70 border border-white/60 text-gray-500 hover:text-orange-600 hover:bg-white transition-colors shadow-sm">
+            <Bell className="w-4.5 h-4.5" />
+          </button>
+
+          {user && (
+            <Dropdown>
+              <Dropdown.Trigger className="rounded-full ring-2 ring-white/70 hover:ring-orange-300 transition-all">
+                <Avatar size="sm" aria-label="Menu">
+                  <Avatar.Image
+                    referrerPolicy="no-referrer"
+                    alt={user.name}
+                    src={user?.image}
+                  />
+                  <Avatar.Fallback>{user.name.charAt(0)}</Avatar.Fallback>
+                </Avatar>
+              </Dropdown.Trigger>
+              <Dropdown.Popover className="backdrop-blur-2xl bg-white/70 border border-white/60 rounded-2xl shadow-xl">
+                <div className="px-3 pt-3 pb-2">
+                  <div className="flex items-center gap-2">
+                    <Avatar size="sm">
+                      <Avatar.Image alt={user?.name} src={user?.image} />
+                      <Avatar.Fallback delayMs={600}>
+                        {user.name.charAt(0)}
+                      </Avatar.Fallback>
+                    </Avatar>
+                    <div className="flex flex-col gap-0">
+                      <p className="text-sm leading-5 font-semibold text-gray-900">
+                        {user?.name}
+                      </p>
+                      <p className="text-xs leading-none text-gray-500">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <Dropdown.Menu onAction={handleMenuAction}>
+                  <Dropdown.Item id="profile" textValue="Profile">
+                    <CgProfile />
+                    <Label>Profile</Label>
+                  </Dropdown.Item>
+
+                  <Dropdown.Item
+                    id="logout"
+                    textValue="Logout"
+                    variant="danger"
+                    onClick={handleSignOut}
+                  >
+                    <BiLogOut />
+                    <Label>Logout</Label>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown.Popover>
+            </Dropdown>
+          )}
+        </div>
+      </div>
+    </header>
   );
 };
 

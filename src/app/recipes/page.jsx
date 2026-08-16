@@ -1,4 +1,3 @@
-// app/recipes/page.jsx
 import RecipePagination from "./RecipePagination";
 import RecipeGrid from "./RecipeGrid";
 import RecipeFilters from "./RecipeFilters";

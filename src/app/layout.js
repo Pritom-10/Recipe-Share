@@ -1,11 +1,11 @@
-import dns from "node:dns"
-dns.setServers(['1.1.1.1', '1.0.0.1']);
+// app/layout.jsx
+import dns from "node:dns";
+dns.setServers(["1.1.1.1", "1.0.0.1"]);
 import { Toaster } from "react-hot-toast";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,11 +21,8 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${inter.className} h-full antialiased`}>
       <body>
         <Navbar />
-        <main className="max-w-7xl mx-auto px-2 min-h-screen">
-          {children}
-          <Toaster position="top-center" />
-        </main>
-
+        <main className="min-h-screen">{children}</main>
+        <Toaster position="top-center" />
         <Footer />
       </body>
     </html>

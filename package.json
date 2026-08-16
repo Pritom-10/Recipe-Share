@@ -17,6 +17,7 @@
     "better-auth": "^1.6.23",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^13.1.0",
     "lucide-react": "^1.25.0",
     "mongodb": "^7.3.0",
     "next": "^16.2.9",

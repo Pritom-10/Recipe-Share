@@ -24,6 +24,15 @@ export const reportRecipe = async (recipeId, reason, details, token) => {
   return await res.json();
 };
 
+// export const toggleFavourite = async (recipeId, token) => {
+//   const res = await fetch(`${SERVER_URL}/recipes/${recipeId}/favourite`, {
+//     method: "POST",
+//     headers: {
+//       authorization: `Bearer ${token}`,
+//     },
+//   });
+//   return await res.json();
+// };
 export const toggleFavourite = async (recipeId, token) => {
   const res = await fetch(`${SERVER_URL}/recipes/${recipeId}/favourite`, {
     method: "POST",
@@ -31,5 +40,15 @@ export const toggleFavourite = async (recipeId, token) => {
       authorization: `Bearer ${token}`,
     },
   });
+
+  console.log("Status:", res.status);
+  console.log("SERVER_URL used:", SERVER_URL);
+
+  if (!res.ok) {
+    const text = await res.text();
+    console.log("Response body:", text);
+    throw new Error("Favourite toggle failed");
+  }
+
   return await res.json();
 };

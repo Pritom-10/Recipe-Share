@@ -5,24 +5,24 @@ import { authClient } from "@/lib/auth-client";
 import { imageUploader } from "@/lib/imageUpload";
 import {
   Button,
-  Description,
-  FieldError,
   Fieldset,
   Form,
   Input,
   Label,
-  Surface,
   TextField,
+  FieldError,
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { ChefHat, ImagePlus, User } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignUpPage() {
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -72,14 +72,28 @@ export default function SignUpPage() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setIsGoogleLoading(true);
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error("Google দিয়ে সাইন আপ করতে সমস্যা হয়েছে");
+      setIsGoogleLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-[85vh] flex items-center justify-center px-4 py-10 relative overflow-hidden">
-      {/* Decorative gradient blobs */}
-      <div className="absolute top-0 left-1/4 w-72 h-72 bg-orange-300/30 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-rose-300/30 rounded-full blur-3xl" />
+    <div className="min-h-[85vh] flex items-center justify-center px-4 py-10 relative overflow-hidden bg-gradient-to-br from-orange-100 via-rose-50 to-amber-100">
+      <div className="absolute top-10 left-10 w-80 h-80 bg-orange-400/40 rounded-full blur-3xl" />
+      <div className="absolute bottom-10 right-10 w-80 h-80 bg-rose-400/40 rounded-full blur-3xl" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-amber-300/30 rounded-full blur-3xl" />
 
       <div className="relative w-full max-w-md">
-        <div className="backdrop-blur-xl bg-white/60 border border-white/40 rounded-3xl shadow-xl p-8">
+        <div className="backdrop-blur-2xl bg-white/50 border border-white/60 rounded-3xl shadow-2xl p-8">
           <div className="flex flex-col items-center mb-6">
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 flex items-center justify-center mb-3 shadow-lg">
               <ChefHat className="w-6 h-6 text-white" />
@@ -90,10 +104,25 @@ export default function SignUpPage() {
             </p>
           </div>
 
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={isGoogleLoading}
+            className="w-full flex items-center justify-center gap-2.5 bg-white/80 border border-gray-200 text-gray-700 font-medium py-3 rounded-xl hover:bg-white hover:shadow-md transition-all disabled:opacity-60 mb-5"
+          >
+            <FcGoogle className="w-5 h-5" />
+            {isGoogleLoading ? "Redirecting..." : "Continue with Google"}
+          </button>
+
+          <div className="flex items-center gap-3 mb-5">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-xs text-gray-400">OR</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+
           <Form onSubmit={onSubmit}>
             <Fieldset className="w-full">
               <Fieldset.Group className="space-y-4">
-                {/* Profile image upload */}
                 <div className="flex justify-center mb-2">
                   <label className="relative cursor-pointer group">
                     <div className="w-20 h-20 rounded-full overflow-hidden bg-white/70 border-2 border-dashed border-orange-200 flex items-center justify-center">
