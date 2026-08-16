@@ -81,9 +81,9 @@ const RecipeFilters = ({ defaultParams }) => {
   };
 
   return (
-    <aside className="bg-white border border-gray-200 rounded-2xl p-5 h-fit sticky top-6">
+    <aside className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 h-fit sticky top-6">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="font-bold text-gray-900">Refine</h2>
+        <h2 className="font-bold text-gray-900 dark:text-white">Refine</h2>
         <button
           onClick={handleReset}
           className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700 transition-colors"
@@ -95,7 +95,9 @@ const RecipeFilters = ({ defaultParams }) => {
 
       {/* Search */}
       <div className="mb-6">
-        <p className="text-sm font-medium text-gray-700 mb-2">Search by name</p>
+        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Search by name
+        </p>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
@@ -103,19 +105,20 @@ const RecipeFilters = ({ defaultParams }) => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="e.g. Chicken Biryani"
-            className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all"
+            className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
         </div>
       </div>
 
-      {/* Category */}
       <div className="mb-6">
-        <p className="text-sm font-medium text-gray-700 mb-3">Category</p>
+        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+          Category
+        </p>
         <div className="space-y-2.5">
           {CATEGORIES.map((cat) => (
             <label
               key={cat}
-              className="flex items-center gap-2.5 text-sm text-gray-600 cursor-pointer"
+              className="flex items-center gap-2.5 text-sm text-gray-600 dark:text-gray-400 cursor-pointer"
             >
               <input
                 type="checkbox"
