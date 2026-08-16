@@ -31,9 +31,11 @@ const ManageUsersPage = async ({ searchParams }) => {
       </p>
 
       <UsersTable
+        key={`${page}-${search}`}
         initialUsers={result.data}
         totalPage={result.total_page}
         currentPage={result.page}
+        initialSearch={search}
       />
     </div>
   );

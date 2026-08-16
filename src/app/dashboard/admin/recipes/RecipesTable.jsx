@@ -1,4 +1,4 @@
-// app/dashboard/admin/recipes/RecipesTable.jsx (প্রতিস্থাপন করো)
+// app/dashboard/admin/recipes/RecipesTable.jsx — সম্পূর্ণ ফাইল প্রতিস্থাপন করো
 "use client";
 
 import { useState, useTransition, useEffect, useRef } from "react";
@@ -26,26 +26,50 @@ const RecipesTable = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const debounceRef = useRef(null);
+  const skipNextSearchEffect = useRef(true);
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setRecipes(initialRecipes);
   }, [initialRecipes]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const params = new URLSearchParams(searchParams.toString());
-    if (search) {
-      params.set("search", search);
-    } else {
-      params.delete("search");
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSearch(initialSearch || "");
+    skipNextSearchEffect.current = true;
+  }, [initialSearch]);
+
+  // Live search — শুধু ইউজার নিজে টাইপ করলে ট্রিগার হবে
+  useEffect(() => {
+    if (skipNextSearchEffect.current) {
+      skipNextSearchEffect.current = false;
+      return;
     }
-    params.set("page", "1");
-    router.push(`${pathname}?${params.toString()}`);
-  };
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (search) {
+        params.set("search", search);
+      } else {
+        params.delete("search");
+      }
+      params.set("page", "1");
+      router.push(`${pathname}?${params.toString()}`);
+    }, 400);
+
+    return () => clearTimeout(debounceRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
 
   const goToPage = (page) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", String(page));
+    if (search) {
+      params.set("search", search);
+    }
     router.push(`${pathname}?${params.toString()}`);
   };
 
@@ -116,9 +140,8 @@ const RecipesTable = ({
 
   return (
     <div>
-      {/* Search + Featured filter */}
       <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
-        <form onSubmit={handleSearch} className="max-w-sm flex-1 min-w-[220px]">
+        <div className="max-w-sm flex-1 min-w-[220px]">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
@@ -129,7 +152,7 @@ const RecipesTable = ({
               className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
-        </form>
+        </div>
 
         <button
           onClick={() => setShowFeaturedOnly((prev) => !prev)}
