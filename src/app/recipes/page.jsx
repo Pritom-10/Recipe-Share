@@ -41,25 +41,24 @@ const AllrecipePage = async ({ searchParams }) => {
       <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-orange-500 to-rose-500 bg-clip-text text-transparent">
         All Recipes
       </h1>
-      <p className="text-gray-500 mb-8">
+      <p className="text-gray-500 dark:text-gray-400 mb-8">
         Browse the full catalog. Filter by category, cuisine, or search by name.
       </p>
-
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
         <RecipeFilters defaultParams={params} />
 
         <div>
-          <p className="text-sm text-gray-500 mb-4">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
             Showing{" "}
-            <span className="font-semibold text-gray-800">
+            <span className="font-semibold text-gray-800 dark:text-gray-400">
               {recipes.length}
             </span>{" "}
-            of <span className="font-semibold text-gray-800">{totalCount}</span>{" "}
+            of <span className="font-semibold text-gray-800 dark:text-gray-400">{totalCount}</span>{" "}
             recipes
           </p>
 
           {recipes.length === 0 ? (
-            <p className="text-center text-gray-500 py-16">
+            <p className="text-center text-gray-500 dark:text-gray-400 py-16">
               কোনো রেসিপি পাওয়া যায়নি।
             </p>
           ) : (
