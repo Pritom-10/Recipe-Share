@@ -57,12 +57,12 @@ const DashboardSidebar = () => {
   const menu = navMenu[role];
 
   return (
-    <aside className="h-full w-64 backdrop-blur-2xl bg-white/50 border-r border-white/60">
-      <div className="px-6 py-6 flex items-center gap-2 border-b border-white/60">
+    <aside className="h-full w-64 backdrop-blur-2xl bg-white/50 dark:bg-gray-900/60 border-r border-white/60 dark:border-gray-800">
+      <div className="px-6 py-6 flex items-center gap-2 border-b border-white/60 dark:border-gray-800">
         <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-orange-500 to-rose-500 flex items-center justify-center shadow-md">
           <ChefHat className="w-5 h-5 text-white" />
         </div>
-        <span className="font-bold text-gray-900">
+        <span className="font-bold text-gray-900 dark:text-white">
           {role === "admin" ? "Admin Panel" : "Dashboard"}
         </span>
       </div>
@@ -82,8 +82,8 @@ const DashboardSidebar = () => {
               href={item.href}
               className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 isActive
-                  ? "bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-md shadow-orange-200"
-                  : "text-gray-600 hover:bg-white/70 hover:text-gray-900"
+                  ? "bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-md shadow-orange-200 dark:shadow-orange-900/30"
+                  : "text-gray-600 dark:text-gray-400 hover:bg-white/70 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
               }`}
             >
               <Icon className="w-4.5 h-4.5 flex-shrink-0" />

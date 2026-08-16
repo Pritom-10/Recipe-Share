@@ -138,8 +138,8 @@ const RecipeActions = ({
         disabled={isPending}
         className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
           isLiked
-            ? "bg-rose-50 border-rose-200 text-rose-600"
-            : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
+            ? "bg-rose-50 dark:bg-rose-950 border-rose-200 dark:border-rose-900 text-rose-600 dark:text-rose-400"
+            : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600"
         }`}
       >
         <Heart
@@ -153,8 +153,8 @@ const RecipeActions = ({
         disabled={isPending}
         className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
           isFavourited
-            ? "bg-orange-50 border-orange-200 text-orange-600"
-            : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
+            ? "bg-orange-50 dark:bg-orange-950 border-orange-200 dark:border-orange-900 text-orange-600 dark:text-orange-400"
+            : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600"
         }`}
       >
         <Bookmark

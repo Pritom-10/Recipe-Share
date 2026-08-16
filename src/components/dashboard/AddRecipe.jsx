@@ -137,8 +137,9 @@ export function AddRecipe() {
                     <Label className="text-sm font-medium text-gray-700">
                       Recipe Image
                     </Label>
-                    <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-orange-300 transition-colors bg-gray-50 relative overflow-hidden">
+                    <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl p-4 cursor-pointer hover:border-orange-300 transition-colors bg-gray-50 dark:bg-gray-800">
                       {imagePreview ? (
+                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={imagePreview}
                           alt="preview"
@@ -171,7 +172,7 @@ export function AddRecipe() {
                       <select
                         name="category"
                         required
-                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                       >
                         <option value="">Select</option>
                         <option value="Breakfast">Breakfast</option>
@@ -282,7 +283,7 @@ export function AddRecipe() {
                           value={step}
                           placeholder={`Step ${index + 1}`}
                           rows={2}
-                          className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
+                          className="flex-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
                           onChange={(e) => {
                             const updated = [...instructions];
                             updated[index] = e.target.value;

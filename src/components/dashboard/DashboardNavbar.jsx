@@ -27,15 +27,15 @@ const DashboardNavbar = () => {
   const greetingName = user?.name?.split(" ")[0] || "there";
 
   return (
-    <header className="sticky top-0 z-10 backdrop-blur-2xl bg-white/50 border-b border-white/60 shadow-sm">
+    <header className="sticky top-0 z-10 backdrop-blur-2xl bg-white/50 dark:bg-gray-900/60 border-b border-white/60 dark:border-gray-800 shadow-sm">
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white">
               Welcome back, {greetingName}
               <span className="ml-1">👋</span>
             </h2>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
               Here&apos;s what&apos;s happening today.
             </p>
           </div>
