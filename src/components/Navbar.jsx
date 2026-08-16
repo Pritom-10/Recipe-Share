@@ -120,7 +120,6 @@ const Navbar = () => {
 
           {!user && (
             <div className="hidden items-center gap-3 md:flex">
-              <ThemeToggle />
               <Link
                 href="/signin"
                 className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
@@ -132,6 +131,7 @@ const Navbar = () => {
                   Sign Up
                 </Button>
               </Link>
+              <ThemeToggle />
             </div>
           )}
 
