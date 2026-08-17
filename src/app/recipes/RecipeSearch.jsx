@@ -1,4 +1,4 @@
-// app/recipes/RecipeSearch.jsx
+
 "use client";
 
 import { Search } from "lucide-react";

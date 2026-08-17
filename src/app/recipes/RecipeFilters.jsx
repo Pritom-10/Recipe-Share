@@ -1,4 +1,4 @@
-// app/recipes/RecipeFilters.jsx
+
 "use client";
 
 import { Search, X } from "lucide-react";

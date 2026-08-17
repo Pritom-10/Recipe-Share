@@ -1,4 +1,4 @@
-// app/PopularRecipes.jsx
+
 import Link from "next/link";
 import Image from "next/image";
 import { getPopularRecipes } from "@/lib/actions/recipe";

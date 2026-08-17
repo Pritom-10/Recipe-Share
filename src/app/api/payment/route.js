@@ -21,7 +21,7 @@ export async function POST(request) {
     const recipeId = formData.get("recipeId");
     const userId = user?.id;
 
-    // Create Checkout Sessions from body params.
+ 
     const session = await stripe.checkout.sessions.create({
       customer_email: user?.email,
       line_items: [

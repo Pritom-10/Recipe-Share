@@ -1,4 +1,4 @@
-// components/Footer.jsx
+
 "use client";
 import Link from "next/link";
 import { Mail, Phone, MapPin, ChefHat } from "lucide-react";

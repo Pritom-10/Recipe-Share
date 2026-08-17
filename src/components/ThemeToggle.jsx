@@ -1,4 +1,4 @@
-// components/ThemeToggle.jsx
+
 "use client";
 
 import { useTheme } from "next-themes";
@@ -13,7 +13,7 @@ const ThemeToggle = () => {
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
-    return <div className="w-9 h-9" />; // hydration mismatch এড়াতে placeholder
+    return <div className="w-9 h-9" />; 
   }
 
   const isDark = theme === "dark";

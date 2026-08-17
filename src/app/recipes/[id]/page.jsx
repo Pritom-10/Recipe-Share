@@ -1,4 +1,4 @@
-// app/recipes/[id]/page.jsx
+
 import Image from "next/image";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";

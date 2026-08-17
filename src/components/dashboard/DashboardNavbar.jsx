@@ -1,4 +1,4 @@
-// components/dashboard/DashboardNavbar.jsx
+
 "use client";
 import ThemeToggle from "@/components/ThemeToggle";
 import { authClient } from "@/lib/auth-client";

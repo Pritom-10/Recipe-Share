@@ -35,7 +35,7 @@ export default async function Success({ searchParams }) {
   if (status === "complete") {
     const pay_data = await payment({ ...metadata, session_id });
 
-    // Format currency
+   
     const formatCurrency = (amount, currency) => {
       return new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -44,7 +44,7 @@ export default async function Success({ searchParams }) {
       }).format(amount / 100);
     };
 
-    // Get order items
+   
     const items = line_items?.data || [];
     const orderNumber = payment_intent?.id?.slice(-8) || "N/A";
     const orderDate = new Date().toLocaleDateString("en-US", {
