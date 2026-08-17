@@ -12,6 +12,7 @@ export const toggleLike = async (recipeId, token) => {
   return await res.json();
 };
 
+
 export const reportRecipe = async (recipeId, reason, details, token) => {
   const res = await fetch(`${SERVER_URL}/recipes/${recipeId}/report`, {
     method: "POST",
@@ -24,15 +25,7 @@ export const reportRecipe = async (recipeId, reason, details, token) => {
   return await res.json();
 };
 
-// export const toggleFavourite = async (recipeId, token) => {
-//   const res = await fetch(`${SERVER_URL}/recipes/${recipeId}/favourite`, {
-//     method: "POST",
-//     headers: {
-//       authorization: `Bearer ${token}`,
-//     },
-//   });
-//   return await res.json();
-// };
+
 export const toggleFavourite = async (recipeId, token) => {
   const res = await fetch(`${SERVER_URL}/recipes/${recipeId}/favourite`, {
     method: "POST",

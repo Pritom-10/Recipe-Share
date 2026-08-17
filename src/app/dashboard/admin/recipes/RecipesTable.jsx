@@ -215,7 +215,7 @@ const RecipesTable = ({
                           </div>
                         )}
                       </div>
-                      <p className="font-medium text-gray-900 truncate max-w-40">
+                      <p className="font-medium text-gray-900 truncate max-w-40 dark:text-gray-500">
                         {recipe.recipeName}
                       </p>
                     </div>

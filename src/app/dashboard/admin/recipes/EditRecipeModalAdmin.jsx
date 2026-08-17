@@ -102,6 +102,7 @@ const EditRecipeModalAdmin = ({ recipe, isOpen, onOpenChange, onUpdated }) => {
                     </Label>
                     <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-orange-300 transition-colors bg-gray-50">
                       {imagePreview ? (
+                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={imagePreview}
                           alt="preview"

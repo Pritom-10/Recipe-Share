@@ -81,7 +81,7 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
                   <td className="px-5 py-3">
                     <Link
                       href={`/recipes/${report.recipeId}`}
-                      className="font-medium text-gray-900 hover:text-orange-600 hover:underline"
+                      className="font-medium text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 hover:underline"
                     >
                       {report.recipeName}
                     </Link>
@@ -90,7 +90,7 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
                     <p>{report.reason}</p>
                     {report.details && (
                       <p
-                        className="text-xs text-gray-400 mt-0.5 max-w-50 truncate"
+                        className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 max-w-50 truncate"
                         title={report.details}
                       >
                         {report.details}

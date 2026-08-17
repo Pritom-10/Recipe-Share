@@ -1,3 +1,4 @@
+// app/recipes/[id]/ReportButton.jsx
 "use client";
 
 import { useState } from "react";
@@ -23,12 +24,6 @@ const ReportButton = ({ recipeId }) => {
     setIsOpen(true);
   };
 
-  const resetAndClose = () => {
-    setSelectedReason("");
-    setDetails("");
-    setIsOpen(false);
-  };
-
   const handleSubmit = async () => {
     if (!selectedReason) {
       toast.error("একটা reason বেছে নাও");
@@ -49,7 +44,9 @@ const ReportButton = ({ recipeId }) => {
 
       if (result.success) {
         toast.success("রিপোর্ট জমা হয়েছে, ধন্যবাদ");
-        resetAndClose();
+        setIsOpen(false);
+        setSelectedReason("");
+        setDetails("");
       } else {
         toast.error(result.error || "কিছু একটা সমস্যা হয়েছে");
       }
@@ -89,7 +86,7 @@ const ReportButton = ({ recipeId }) => {
               কেন এই রেসিপিটা রিপোর্ট করছ, একটা কারণ বেছে নাও:
             </p>
 
-            <div className="space-y-2 mb-6">
+            <div className="space-y-2 mb-4">
               {REASONS.map((reason) => (
                 <label
                   key={reason}
@@ -105,6 +102,19 @@ const ReportButton = ({ recipeId }) => {
                   {reason}
                 </label>
               ))}
+            </div>
+
+            <div className="mb-6">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                Additional details (optional)
+              </label>
+              <textarea
+                value={details}
+                onChange={(e) => setDetails(e.target.value)}
+                rows={3}
+                placeholder="বিস্তারিত লিখতে পারো, যেমন কোথায় সমস্যা মনে হয়েছে..."
+                className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400 resize-none"
+              />
             </div>
 
             <button
