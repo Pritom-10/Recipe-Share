@@ -35,10 +35,10 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
 
         const result = await updateReportStatus(reportId, status, token);
         if (!result.success) throw new Error();
-        toast.success("রিপোর্ট আপডেট হয়েছে");
+        toast.success("Report status updated successfully");
       } catch (error) {
         setReports(prev);
-        toast.error("কিছু একটা সমস্যা হয়েছে");
+        toast.error("Something went wrong");
       }
     });
   };
@@ -69,7 +69,7 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
                   colSpan={5}
                   className="text-center py-10 text-gray-400 dark:text-gray-500"
                 >
-                  কোনো রিপোর্ট নেই।
+                  No reports found.
                 </td>
               </tr>
             ) : (

@@ -27,7 +27,7 @@ const ManageRecipesPage = async ({ searchParams }) => {
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold mb-2">Manage Recipes</h1>
       <p className="text-gray-500 mb-8">
-        সব ইউজারের রেসিপি এখানে দেখো, এডিট/ডিলিট/ফিচার করো।
+        View all users recipes here to edit, delete, or feature them
       </p>
       <p className="text-sm text-gray-400 mb-4">
         Total: {result.total_data} recipes

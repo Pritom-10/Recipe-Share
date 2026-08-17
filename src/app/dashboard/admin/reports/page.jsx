@@ -16,8 +16,8 @@ const ManageReportsPage = async ({ searchParams }) => {
     return (
       <div className="text-center py-20 text-red-500">
         {result.msg === "Forbidden: Admins only"
-          ? "তোমার এই পেজ দেখার অনুমতি নেই।"
-          : "লগইন করা প্রয়োজন।"}
+          ? "You don't have permission to view this page."
+          : "Need to Login"}
       </div>
     );
   }
@@ -26,7 +26,7 @@ const ManageReportsPage = async ({ searchParams }) => {
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold mb-2">Manage Reports</h1>
       <p className="text-gray-500 mb-8">
-        ইউজারদের রিপোর্ট করা রেসিপিগুলো এখানে রিভিউ করো।
+        Review reported recipes from users here
       </p>
 
       <ReportsTable

@@ -30,7 +30,7 @@ const UsersTable = ({
     setUsers(initialUsers);
   }, [initialUsers]);
 
-  // Live search — টাইপ করার সাথে সাথে debounce করে সার্চ
+  
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -78,7 +78,7 @@ const UsersTable = ({
 
         if (!result.success) throw new Error();
         toast.success(
-          nextBlocked ? "ইউজারকে ব্লক করা হয়েছে" : "ইউজারকে আনব্লক করা হয়েছে",
+          nextBlocked ? "User blocked successfully" : "User unblocked successfully",
         );
       } catch (error) {
         setUsers((prev) =>
@@ -86,7 +86,7 @@ const UsersTable = ({
             u._id === user._id ? { ...u, blocked: !nextBlocked } : u,
           ),
         );
-        toast.error("কিছু একটা সমস্যা হয়েছে");
+        toast.error("Something went wrong");
       }
     });
   };
@@ -124,7 +124,7 @@ const UsersTable = ({
             {users.length === 0 ? (
               <tr>
                 <td colSpan={5} className="text-center py-10 text-gray-400">
-                  কোনো ইউজার পাওয়া যায়নি।
+                  No users found.
                 </td>
               </tr>
             ) : (
