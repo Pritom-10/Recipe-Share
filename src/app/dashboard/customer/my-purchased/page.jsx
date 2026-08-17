@@ -58,22 +58,24 @@ const MyPurchasedPage = async ({ searchParams }) => {
                 )}
               </div>
 
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-gray-900 truncate">
-                  {purchase.recipeName}
-                </p>
-                <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
-                  {purchase.category && (
-                    <span className="bg-gray-100 px-2 py-0.5 rounded-full">
-                      {purchase.category}
-                    </span>
-                  )}
-                  {purchase.preparationTime && (
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      {purchase.preparationTime} min
-                    </span>
-                  )}
+              <div className="flex items-center gap-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-gray-900 dark:text-white truncate">
+                    {purchase.recipeName}
+                  </p>
+                  <div className="flex items-center gap-3 mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    {purchase.category && (
+                      <span className="bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+                        {purchase.category}
+                      </span>
+                    )}
+                    {purchase.preparationTime && (
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {purchase.preparationTime} min
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -97,8 +99,8 @@ const MyPurchasedPage = async ({ searchParams }) => {
               href={`?page=${i + 1}`}
               className={`px-3 py-1.5 rounded border text-sm ${
                 currentPage === i + 1
-                  ? "bg-black text-white"
-                  : "hover:bg-gray-100"
+                  ? "bg-black text-white dark:bg-white dark:text-black"
+                  : "hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-700 text-gray-700 dark:text-gray-300"
               }`}
             >
               {i + 1}

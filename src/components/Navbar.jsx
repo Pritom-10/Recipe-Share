@@ -52,7 +52,7 @@ const Navbar = () => {
     <div>
       <div className="bg-black p-1 text-white"></div>
 
-      <nav className="fixed top-0 left-0 right-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
+      <nav className="fixed top-0 left-0 right-0 z-40 w-full border-b border-separator dark:border-gray-800 bg-background/70 dark:bg-gray-950/80 backdrop-blur-lg">
         <header className="mx-auto flex h-16 max-w-7xl items-center justify-between px-2">
           <div className="flex items-center gap-4">
             <button
@@ -88,8 +88,9 @@ const Navbar = () => {
             <Link href={"/"}>
               <div className="flex items-center gap-2.5">
                 <Logo className="w-9 h-9" />
-                <span className="text-lg font-bold tracking-tight text-gray-900">
-                  Tech Bazaar
+
+                <span className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
+                  Recipe Share
                 </span>
               </div>
             </Link>
@@ -104,8 +105,8 @@ const Navbar = () => {
                     href={link.href}
                     className={`relative px-4 py-2 text-sm font-medium tracking-wide transition-colors ${
                       isActive
-                        ? "text-orange-600"
-                        : "text-gray-600 hover:text-gray-900"
+                        ? "text-orange-600 dark:text-orange-400"
+                        : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                     }`}
                   >
                     {link.label}
@@ -122,7 +123,7 @@ const Navbar = () => {
             <div className="hidden items-center gap-3 md:flex">
               <Link
                 href="/signin"
-                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
               >
                 Login
               </Link>
@@ -194,13 +195,13 @@ const Navbar = () => {
         </header>
 
         {isMenuOpen && (
-          <div className="border-t border-separator md:hidden">
+          <div className="border-t border-separator dark:border-gray-800 bg-background dark:bg-gray-950 md:hidden">
             <ul className="flex flex-col gap-1 p-4">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="block py-2.5 text-sm font-medium text-gray-700"
+                    className="block py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>

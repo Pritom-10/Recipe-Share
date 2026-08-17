@@ -32,7 +32,7 @@ const RecipeSearch = ({ defaultValue }) => {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder="Search by name, category or cuisine..."
-          className="w-full pl-12 pr-28 py-3.5 rounded-full border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all"
+          className="w-full pl-12 pr-28 py-3.5 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all"
         />
         <button
           type="submit"

@@ -85,13 +85,14 @@ const ProfilePage = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 space-y-6"
+        className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm p-6 space-y-6"
       >
         {/* Image */}
         <div className="flex justify-center">
           <label className="relative cursor-pointer group">
             <div className="w-28 h-28 rounded-full overflow-hidden bg-gray-100 border-4 border-white shadow-md flex items-center justify-center">
               {imagePreview ? (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={imagePreview}
                   alt="Profile"
@@ -115,25 +116,29 @@ const ProfilePage = () => {
 
         {/* Name */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Name</label>
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Name
+          </label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Your name"
             required
-            className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
         </div>
 
         {/* Email (read-only) */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Email</label>
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Email
+          </label>
           <input
             type="email"
             value={user.email}
             disabled
-            className="w-full rounded-xl border border-gray-200 bg-gray-100 px-4 py-2.5 text-sm text-gray-500 cursor-not-allowed"
+            className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 cursor-not-allowed"
           />
         </div>
 
