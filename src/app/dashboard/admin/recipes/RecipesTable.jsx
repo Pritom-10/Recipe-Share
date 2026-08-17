@@ -86,11 +86,11 @@ const RecipesTable = ({
 
         const result = await adminDeleteRecipe(id, token);
         if (!result.success) throw new Error();
-        toast.success("রেসিপি মুছে ফেলা হয়েছে");
+        toast.success("Recipe deleted successfully");
         router.refresh();
       } catch (error) {
         setRecipes(prev);
-        toast.error("কিছু একটা সমস্যা হয়েছে");
+        toast.error("Something went wrong");
       }
     });
   };
@@ -113,8 +113,8 @@ const RecipesTable = ({
         if (!result.success) throw new Error();
         toast.success(
           nextFeatured
-            ? `"${recipe.recipeName}" Featured এ যোগ হয়েছে`
-            : `"${recipe.recipeName}" Featured থেকে সরানো হয়েছে`,
+            ? `"${recipe.recipeName}" Featured are Added`
+            : `"${recipe.recipeName}" Featured are Removed`,
         );
       } catch (error) {
         setRecipes((prev) =>
@@ -122,7 +122,7 @@ const RecipesTable = ({
             r._id === recipe._id ? { ...r, featured: !nextFeatured } : r,
           ),
         );
-        toast.error("কিছু একটা সমস্যা হয়েছে");
+        toast.error("Something went wrong");
       }
     });
   };

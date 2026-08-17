@@ -27,10 +27,10 @@ const FavouritesGrid = ({ recipes }) => {
         if (result.favourited !== false) {
           throw new Error();
         }
-        toast.success("Favourites থেকে সরানো হয়েছে");
+        toast.success("Favourites removed successfully");
       } catch (error) {
-        setItems(prevItems); // rollback
-        toast.error("কিছু একটা সমস্যা হয়েছে");
+        setItems(prevItems); 
+        toast.error("Something went wrong");
       }
     });
   };
@@ -38,7 +38,7 @@ const FavouritesGrid = ({ recipes }) => {
   if (items.length === 0) {
     return (
       <p className="text-center text-gray-500 py-16">
-        তুমি এখনো কোনো রেসিপি favourite করোনি।
+        You have not added any recipes to your favourites yet. Start exploring and add your favorite recipes to see them here!
       </p>
     );
   }

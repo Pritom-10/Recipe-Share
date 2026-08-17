@@ -38,15 +38,15 @@ export default function SignInPage() {
       });
 
       if (error) {
-        toast.error(error.message || "লগইন করতে সমস্যা হয়েছে");
+        toast.error(error.message || "Sign in failed");
         return;
       }
 
-      toast.success("লগইন সফল হয়েছে!");
+      toast.success("Sign in successful!");
       router.push("/");
     } catch (error) {
       console.error(error);
-      toast.error("কিছু একটা সমস্যা হয়েছে");
+      toast.error("Something went wrong");
     } finally {
       setIsSubmitting(false);
     }
@@ -61,7 +61,7 @@ export default function SignInPage() {
       });
     } catch (error) {
       console.error(error);
-      toast.error("Google দিয়ে লগইন করতে সমস্যা হয়েছে");
+      toast.error("Failed to sign in with Google");
       setIsGoogleLoading(false);
     }
   };

@@ -19,63 +19,11 @@ const RecipeActions = ({
 
   const { data: session } = authClient.useSession();
 
-  // const handleLike = () => {
-  //   if (!session?.user) {
-  //     toast.error("Like দিতে হলে লগইন করো");
-  //     return;
-  //   }
-
-  //   // optimistic update
-  //   const nextLiked = !isLiked;
-  //   setIsLiked(nextLiked);
-  //   setLikeCount((prev) => prev + (nextLiked ? 1 : -1));
-
-  //   startTransition(async () => {
-  //     try {
-  //       const { token } = await authClient.token();
-  //       const result = await toggleLike(recipeId, token);
-  //       if (typeof result.liked !== "boolean") {
-  //         throw new Error();
-  //       }
-  //     } catch (error) {
-  //       // rollback on failure
-  //       setIsLiked(!nextLiked);
-  //       setLikeCount((prev) => prev + (nextLiked ? -1 : 1));
-  //       toast.error("কিছু একটা সমস্যা হয়েছে");
-  //     }
-  //   });
-  // };
-
-  // const handleFavourite = () => {
-  //   if (!session?.user) {
-  //     toast.error("Favourite করতে হলে লগইন করো");
-  //     return;
-  //   }
-
-  //   const nextFav = !isFavourited;
-  //   setIsFavourited(nextFav);
-
-  //   startTransition(async () => {
-  //     try {
-  //       const { token } = await authClient.token();
-  //       const result = await toggleFavourite(recipeId, token);
-  //       if (typeof result.favourited !== "boolean") {
-  //         throw new Error();
-  //       }
-  //       toast.success(
-  //         nextFav ? "Favourites এ যোগ হয়েছে" : "Favourites থেকে সরানো হয়েছে",
-  //       );
-  //     } catch (error) {
-  //       setIsFavourited(!nextFav);
-  //       toast.error("কিছু একটা সমস্যা হয়েছে");
-  //     }
-  //   });
-  // };
 
 
   const handleLike = () => {
     if (!session?.user) {
-      toast.error("Like দিতে হলে লগইন করো");
+      toast.error("Like the recipe by logging in");
       return;
     }
 
@@ -97,14 +45,14 @@ const RecipeActions = ({
       } catch (error) {
         setIsLiked(!nextLiked);
         setLikeCount((prev) => prev + (nextLiked ? -1 : 1));
-        toast.error("কিছু একটা সমস্যা হয়েছে");
+        toast.error("Something went wrong");
       }
     });
   };
 
   const handleFavourite = () => {
     if (!session?.user) {
-      toast.error("Favourite করতে হলে লগইন করো");
+      toast.error("Favourite the recipe by logging in");
       return;
     }
 
@@ -123,11 +71,11 @@ const RecipeActions = ({
           throw new Error();
         }
         toast.success(
-          nextFav ? "Favourites এ যোগ হয়েছে" : "Favourites থেকে সরানো হয়েছে",
+          nextFav ? "Recipe added to favourites" : "Recipe removed from favourites",
         );
       } catch (error) {
         setIsFavourited(!nextFav);
-        toast.error("কিছু একটা সমস্যা হয়েছে");
+        toast.error("Something went wrong");
       }
     });
   };

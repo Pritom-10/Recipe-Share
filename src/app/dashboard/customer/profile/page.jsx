@@ -50,13 +50,13 @@ const ProfilePage = () => {
       });
 
       if (error) {
-        toast.error(error.message || "প্রোফাইল আপডেট করতে সমস্যা হয়েছে");
+        toast.error(error.message || "profile update failed");
       } else {
-        toast.success("প্রোফাইল আপডেট হয়েছে!");
+        toast.success("Profile updated successfully!");
       }
     } catch (error) {
       console.error(error);
-      toast.error("কিছু একটা সমস্যা হয়েছে");
+      toast.error("Something went wrong");
     } finally {
       setIsSubmitting(false);
     }

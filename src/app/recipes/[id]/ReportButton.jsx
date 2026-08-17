@@ -18,7 +18,7 @@ const ReportButton = ({ recipeId }) => {
 
   const handleOpen = () => {
     if (!session?.user) {
-      toast.error("Report করতে হলে লগইন করো");
+      toast.error("Report the recipe by logging in");
       return;
     }
     setIsOpen(true);
@@ -26,7 +26,7 @@ const ReportButton = ({ recipeId }) => {
 
   const handleSubmit = async () => {
     if (!selectedReason) {
-      toast.error("একটা reason বেছে নাও");
+      toast.error("Please select a reason");
       return;
     }
 
@@ -43,15 +43,15 @@ const ReportButton = ({ recipeId }) => {
       );
 
       if (result.success) {
-        toast.success("রিপোর্ট জমা হয়েছে, ধন্যবাদ");
+        toast.success("Report submitted successfully, thank you!");
         setIsOpen(false);
         setSelectedReason("");
         setDetails("");
       } else {
-        toast.error(result.error || "কিছু একটা সমস্যা হয়েছে");
+        toast.error(result.error || "Something went wrong");
       }
     } catch (error) {
-      toast.error("কিছু একটা সমস্যা হয়েছে");
+      toast.error("Something went wrong");
     } finally {
       setIsSubmitting(false);
     }

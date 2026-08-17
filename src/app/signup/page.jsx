@@ -58,15 +58,15 @@ export default function SignUpPage() {
       });
 
       if (error) {
-        toast.error(error.message || "সাইন আপ করতে সমস্যা হয়েছে");
+        toast.error(error.message || "Failed to sign up");
         return;
       }
 
-      toast.success("অ্যাকাউন্ট তৈরি হয়েছে!");
+      toast.success("Account created successfully!");
       router.push("/");
     } catch (error) {
       console.error(error);
-      toast.error("কিছু একটা সমস্যা হয়েছে");
+      toast.error("Something went wrong");
     } finally {
       setIsSubmitting(false);
     }
@@ -81,7 +81,7 @@ export default function SignUpPage() {
       });
     } catch (error) {
       console.error(error);
-      toast.error("Google দিয়ে সাইন আপ করতে সমস্যা হয়েছে");
+      toast.error("Failed to sign up with Google");
       setIsGoogleLoading(false);
     }
   };

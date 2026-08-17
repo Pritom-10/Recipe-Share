@@ -56,15 +56,15 @@ const EditRecipeModalAdmin = ({ recipe, isOpen, onOpenChange, onUpdated }) => {
       const result = await adminUpdateRecipe(recipe._id, updateData, token);
 
       if (result.success) {
-        toast.success("রেসিপি আপডেট হয়েছে!");
+        toast.success("Recipe updated successfully");
         onUpdated({ ...recipe, ...updateData });
         onOpenChange(false);
       } else {
-        toast.error(result.error || "কিছু একটা সমস্যা হয়েছে");
+        toast.error(result.error || "Something went wrong");
       }
     } catch (error) {
       console.error(error);
-      toast.error("কিছু একটা সমস্যা হয়েছে");
+      toast.error("Something went wrong");
     } finally {
       setIsSubmitting(false);
     }

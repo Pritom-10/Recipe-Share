@@ -28,10 +28,10 @@ const MyRecipesGrid = ({ recipes }) => {
         const result = await deleteRecipe(id, token);
 
         if (!result.success) throw new Error();
-        toast.success("রেসিপি মুছে ফেলা হয়েছে");
+        toast.success("Recipe deleted successfully");
       } catch (error) {
         setItems(prevItems);
-        toast.error("কিছু একটা সমস্যা হয়েছে");
+        toast.error("Something went wrong");
       }
     });
   };
