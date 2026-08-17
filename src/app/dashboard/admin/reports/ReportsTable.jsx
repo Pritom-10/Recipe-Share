@@ -51,9 +51,9 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
 
   return (
     <div>
-      <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-gray-500 text-left">
+          <thead className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 text-left">
             <tr>
               <th className="px-5 py-3 font-medium">Recipe</th>
               <th className="px-5 py-3 font-medium">Reason</th>
@@ -65,13 +65,19 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
           <tbody>
             {reports.length === 0 ? (
               <tr>
-                <td colSpan={5} className="text-center py-10 text-gray-400">
+                <td
+                  colSpan={5}
+                  className="text-center py-10 text-gray-400 dark:text-gray-500"
+                >
                   কোনো রিপোর্ট নেই।
                 </td>
               </tr>
             ) : (
               reports.map((report) => (
-                <tr key={report._id} className="border-t border-gray-100">
+                <tr
+                  key={report._id}
+                  className="border-t border-gray-100 dark:border-gray-700"
+                >
                   <td className="px-5 py-3">
                     <Link
                       href={`/recipes/${report.recipeId}`}
@@ -80,18 +86,18 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
                       {report.recipeName}
                     </Link>
                   </td>
-                  <td className="px-5 py-3 text-gray-600">
+                  <td className="px-5 py-3 text-gray-600 dark:text-gray-300">
                     <p>{report.reason}</p>
                     {report.details && (
                       <p
-                        className="text-xs text-gray-400 mt-0.5 max-w-[200px] truncate"
+                        className="text-xs text-gray-400 mt-0.5 max-w-50 truncate"
                         title={report.details}
                       >
                         {report.details}
                       </p>
                     )}
                   </td>
-                  <td className="px-5 py-3 text-gray-600">
+                  <td className="px-5 py-3 text-gray-600 dark:text-gray-300">
                     {report.reportedByName}
                   </td>
                   <td className="px-5 py-3">
@@ -142,8 +148,8 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
               onClick={() => goToPage(i + 1)}
               className={`px-3 py-1.5 rounded border text-sm ${
                 currentPage === i + 1
-                  ? "bg-black text-white"
-                  : "hover:bg-gray-100"
+                  ? "bg-black text-white dark:bg-white dark:text-black"
+                  : "hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-700 text-gray-700 dark:text-gray-300"
               }`}
             >
               {i + 1}

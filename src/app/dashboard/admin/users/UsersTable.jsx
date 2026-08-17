@@ -1,4 +1,4 @@
-// app/dashboard/admin/users/UsersTable.jsx (প্রতিস্থাপন করো)
+8
 "use client";
 
 import { useState, useTransition, useEffect, useRef } from "react";
@@ -102,15 +102,16 @@ const UsersTable = ({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by name or email..."
-            className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
         </div>
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+
+      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-gray-500 text-left">
+          <thead className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 text-left">
             <tr>
               <th className="px-5 py-3 font-medium">User</th>
               <th className="px-5 py-3 font-medium">Role</th>
@@ -128,11 +129,15 @@ const UsersTable = ({
               </tr>
             ) : (
               users.map((user) => (
-                <tr key={user._id} className="border-t border-gray-100">
+                <tr
+                  key={user._id}
+                  className="border-t border-gray-100 dark:border-gray-700"
+                >
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center flex-shrink-0">
                         {user.image ? (
+                          // eslint-disable-next-line @next/next/no-img-element
                           <img
                             src={user.image}
                             alt={user.name}
@@ -143,12 +148,16 @@ const UsersTable = ({
                         )}
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">{user.name}</p>
-                        <p className="text-xs text-gray-400">{user.email}</p>
+                        <p className="font-medium text-gray-900 dark:text-white">
+                          {user.name}
+                        </p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500">
+                          {user.email}
+                        </p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-5 py-3 capitalize text-gray-600">
+                  <td className="px-5 py-3 capitalize text-gray-600 dark:text-gray-300">
                     {user.role}
                   </td>
                   <td className="px-5 py-3">
@@ -214,8 +223,8 @@ const UsersTable = ({
               onClick={() => goToPage(i + 1)}
               className={`px-3 py-1.5 rounded border text-sm ${
                 currentPage === i + 1
-                  ? "bg-black text-white"
-                  : "hover:bg-gray-100"
+                  ? "bg-black text-white dark:bg-white dark:text-black"
+                  : "hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-700 text-gray-700 dark:text-gray-300"
               }`}
             >
               {i + 1}

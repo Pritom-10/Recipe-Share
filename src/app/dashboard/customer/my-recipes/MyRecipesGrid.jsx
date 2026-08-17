@@ -48,9 +48,9 @@ const MyRecipesGrid = ({ recipes }) => {
         {items.map((recipe) => (
           <div
             key={recipe._id}
-            className="group rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl border border-gray-100 transition-all duration-300 hover:-translate-y-1.5"
+            className="group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-2xl border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1.5"
           >
-            <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
+            <div className="relative h-48 w-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
               {recipe.recipeImage ? (
                 <Image
                   src={recipe.recipeImage}
@@ -104,7 +104,7 @@ const MyRecipesGrid = ({ recipes }) => {
                 <ChefHat className="w-3.5 h-3.5" />
                 {recipe.category}
               </div>
-              <h2 className="font-bold text-lg text-gray-900 truncate mb-3">
+              <h2 className="font-bold text-lg text-gray-900 dark:text-white truncate mb-3">
                 {recipe.recipeName}
               </h2>
 

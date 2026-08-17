@@ -141,7 +141,7 @@ const RecipesTable = ({
   return (
     <div>
       <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
-        <div className="max-w-sm flex-1 min-w-[220px]">
+        <div className="max-w-sm flex-1 min-w-55">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
@@ -149,7 +149,7 @@ const RecipesTable = ({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by recipe name..."
-              className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
         </div>
@@ -169,9 +169,9 @@ const RecipesTable = ({
         </button>
       </div>
 
-      <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-gray-500 text-left">
+          <thead className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 text-left">
             <tr>
               <th className="px-5 py-3 font-medium">Recipe</th>
               <th className="px-5 py-3 font-medium">Owner</th>
@@ -194,7 +194,7 @@ const RecipesTable = ({
               visibleRecipes.map((recipe) => (
                 <tr
                   key={recipe._id}
-                  className={`border-t border-gray-100 ${
+                  className={`border-t border-gray-100 dark:border-gray-700 ${
                     recipe.featured ? "bg-amber-50/40" : ""
                   }`}
                 >
@@ -215,14 +215,18 @@ const RecipesTable = ({
                           </div>
                         )}
                       </div>
-                      <p className="font-medium text-gray-900 truncate max-w-[160px]">
+                      <p className="font-medium text-gray-900 truncate max-w-40">
                         {recipe.recipeName}
                       </p>
                     </div>
                   </td>
-                  <td className="px-5 py-3 text-gray-600">{recipe.userName}</td>
-                  <td className="px-5 py-3 text-gray-600">{recipe.category}</td>
-                  <td className="px-5 py-3 text-gray-600">
+                  <td className="px-5 py-3 font-medium text-gray-900 dark:text-white">
+                    {recipe.userName}
+                  </td>
+                  <td className="px-5 py-3 text-xs text-gray-400 dark:text-gray-500">
+                    {recipe.category}
+                  </td>
+                  <td className="px-5 py-3 text-gray-600 dark:text-gray-300">
                     {recipe.like || 0}
                   </td>
                   <td className="px-5 py-3">
@@ -273,8 +277,8 @@ const RecipesTable = ({
               onClick={() => goToPage(i + 1)}
               className={`px-3 py-1.5 rounded border text-sm ${
                 currentPage === i + 1
-                  ? "bg-black text-white"
-                  : "hover:bg-gray-100"
+                  ? "bg-black text-white dark:bg-white dark:text-black"
+                  : "hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-700 text-gray-700 dark:text-gray-300"
               }`}
             >
               {i + 1}
