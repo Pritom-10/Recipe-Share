@@ -41,12 +41,12 @@ const MyFavouritesPage = async ({ searchParams }) => {
     <div className="max-w-7xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold mb-2">My Favourites</h1>
       <p className="text-gray-500 mb-8">
-        তোমার পছন্দের করা রেসিপিগুলো এখানে দেখা যাবে।
+        Recipes you&apos;ve added to your favourites.
       </p>
 
       {data.length === 0 ? (
         <p className="text-center text-gray-500 py-16">
-          তুমি এখনো কোনো রেসিপি favourite করোনি।
+          You have not added any recipes to your favourites yet. Start exploring and add your favourite recipes to see them here!
         </p>
       ) : (
         <>

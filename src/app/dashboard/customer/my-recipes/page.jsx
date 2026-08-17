@@ -19,7 +19,7 @@ const MyRecipesPage = async ({ searchParams }) => {
 
   if (!token) {
     return (
-      <div className="text-center py-20 text-red-500">লগইন করা প্রয়োজন।</div>
+      <div className="text-center py-20 text-red-500">Need to Login</div>
     );
   }
 
@@ -36,7 +36,7 @@ const MyRecipesPage = async ({ searchParams }) => {
   if (!res.ok) {
     return (
       <div className="text-center py-20 text-red-500">
-        রেসিপি লোড করতে সমস্যা হয়েছে।
+        Failed to load recipes.
       </div>
     );
   }
@@ -52,7 +52,7 @@ const MyRecipesPage = async ({ searchParams }) => {
 
       {data.length === 0 ? (
         <p className="text-center text-gray-500 py-16">
-          তুমি এখনো কোনো রেসিপি যোগ করোনি।
+          You have not shared any recipes yet!
         </p>
       ) : (
         <>

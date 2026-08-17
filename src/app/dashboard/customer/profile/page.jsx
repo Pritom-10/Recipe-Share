@@ -65,7 +65,7 @@ const ProfilePage = () => {
   if (isPending) {
     return (
       <div className="max-w-lg mx-auto px-4 py-16 text-center text-gray-400">
-        লোড হচ্ছে...
+        Loading...
       </div>
     );
   }
@@ -73,7 +73,7 @@ const ProfilePage = () => {
   if (!user) {
     return (
       <div className="max-w-lg mx-auto px-4 py-16 text-center text-red-500">
-        লগইন করা প্রয়োজন।
+        Need to Login
       </div>
     );
   }
@@ -81,7 +81,7 @@ const ProfilePage = () => {
   return (
     <div className="max-w-lg mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold mb-2">My Profile</h1>
-      <p className="text-gray-500 mb-8">তোমার নাম আর ছবি আপডেট করো।</p>
+      <p className="text-gray-500 mb-8">Update your name and profile picture.</p>
 
       <form
         onSubmit={handleSubmit}
@@ -129,7 +129,7 @@ const ProfilePage = () => {
           />
         </div>
 
-        {/* Email (read-only) */}
+       
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Email

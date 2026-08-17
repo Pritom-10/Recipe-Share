@@ -1,4 +1,4 @@
-// app/dashboard/customer/page.jsx
+
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
@@ -6,7 +6,7 @@ import { getRecipeStatus, confirmUpgrade } from "@/lib/actions/upgrade";
 import { getMyRecipesOverview } from "@/lib/actions/overview";
 import { AddRecipe } from "@/components/dashboard/AddRecipe";
 import Image from "next/image";
-import { Heart, ImageOff } from "lucide-react";
+import { Heart, ImageOff, Bookmark } from "lucide-react";
 
 const CustomerDashboard = async ({ searchParams }) => {
   const params = await searchParams;
@@ -14,7 +14,6 @@ const CustomerDashboard = async ({ searchParams }) => {
 
   const { token } = await auth.api.getToken({ headers: headersList });
 
-  // Stripe payment সাকসেস হলে প্ল্যান আপডেট করে দাও
   if (params?.session_id) {
     const checkoutSession = await stripe.checkout.sessions.retrieve(
       params.session_id,
@@ -57,8 +56,8 @@ const CustomerDashboard = async ({ searchParams }) => {
         )}
       </div>
 
-      {/* Likes summary */}
-      <div className="grid sm:grid-cols-2 gap-6 mb-8">
+      
+      <div className="grid sm:grid-cols-3 gap-6 mb-8">
         <div className="bg-white border border-gray-200 rounded-2xl p-6">
           <p className="text-sm text-gray-500 mb-1">Total Recipes Added</p>
           <p className="text-3xl font-bold text-gray-900">
@@ -72,13 +71,21 @@ const CustomerDashboard = async ({ searchParams }) => {
             {overview.totalLikes}
           </p>
         </div>
+        {/* নতুন কার্ড যোগ করা হলো */}
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-6">
+          <p className="text-sm text-amber-600 mb-1">Total Favourites</p>
+          <p className="text-3xl font-bold text-amber-600 flex items-center gap-2">
+            <Bookmark className="w-7 h-7 fill-amber-500 text-amber-500" />
+            {overview.totalFavourites}
+          </p>
+        </div>
       </div>
 
       {status.limitReached ? (
         <div className="bg-orange-50 border border-orange-200 rounded-2xl p-6 text-center mb-10">
           <p className="text-gray-700 font-medium mb-3">
-            Free plan এ সর্বোচ্চ {status.limit}টি রেসিপি যোগ করা যায়। আরও
-            রেসিপি যোগ করতে Premium এ আপগ্রেড করো।
+            You can add up to {status.limit} recipes on the Free plan. Upgrade
+            to Premium to add more recipes.
           </p>
           <form action="/api/upgrade-premium" method="POST">
             <button
@@ -95,14 +102,13 @@ const CustomerDashboard = async ({ searchParams }) => {
         </div>
       )}
 
-      {/* Recipe-wise likes breakdown */}
       <h2 className="text-xl font-bold dark:text-gray-400 text-gray-900 mb-4">
         Recipe-wise Likes
       </h2>
 
       {overview.recipes.length === 0 ? (
         <p className="text-gray-500 py-10 text-center">
-          তুমি এখনো কোনো রেসিপি যোগ করোনি।
+          You have not shared any recipes yet!
         </p>
       ) : (
         <div className="space-y-3">
@@ -135,7 +141,7 @@ const CustomerDashboard = async ({ searchParams }) => {
                   </p>
                   {recipe.likedBy?.length > 0 && (
                     <p className="text-xs text-gray-400 truncate">
-                      লাইক দিয়েছে:{" "}
+                      Like by:{" "}
                       {recipe.likedBy.map((l) => l.userName).join(", ")}
                     </p>
                   )}

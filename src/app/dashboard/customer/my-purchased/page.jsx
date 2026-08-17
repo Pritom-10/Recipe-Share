@@ -28,12 +28,12 @@ const MyPurchasedPage = async ({ searchParams }) => {
     <div className="max-w-5xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold mb-2">My Purchased Recipes</h1>
       <p className="text-gray-500 mb-8">
-        তুমি যেসব রেসিপি কিনেছ, সেগুলো এখানে দেখা যাবে।
+        he recipes you purchase will appear here.
       </p>
 
       {data.length === 0 ? (
         <p className="text-center text-gray-500 py-16">
-          তুমি এখনো কোনো রেসিপি কেনোনি।
+          You have not purchased any recipes yet. Start exploring and purchase your favorite recipes to see them here!
         </p>
       ) : (
         <div className="space-y-4">
