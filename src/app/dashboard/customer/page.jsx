@@ -34,7 +34,7 @@ const CustomerDashboard = async ({ searchParams }) => {
       <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-6 flex items-center justify-between flex-wrap gap-4">
         <div>
           <p className="text-sm text-gray-500 mb-1">Recipes Added</p>
-          <p className="text-2xl font-bold">
+          <p className="text-2xl font-bold text-gray-500">
             {status.recipeCount}
             {status.plan !== "premium" && (
               <span className="text-gray-400 text-lg"> / {status.limit}</span>
@@ -96,7 +96,7 @@ const CustomerDashboard = async ({ searchParams }) => {
       )}
 
       {/* Recipe-wise likes breakdown */}
-      <h2 className="text-xl font-bold text-gray-900 mb-4">
+      <h2 className="text-xl font-bold dark:text-gray-400 text-gray-900 mb-4">
         Recipe-wise Likes
       </h2>
 
