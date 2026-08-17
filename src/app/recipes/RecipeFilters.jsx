@@ -47,7 +47,6 @@ const RecipeFilters = ({ defaultParams }) => {
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  // Live search: debounce as the user types
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -86,7 +85,7 @@ const RecipeFilters = ({ defaultParams }) => {
         <h2 className="font-bold text-gray-900 dark:text-white">Refine</h2>
         <button
           onClick={handleReset}
-          className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700 transition-colors"
+          className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
         >
           <X className="w-3.5 h-3.5" />
           Reset
@@ -110,6 +109,7 @@ const RecipeFilters = ({ defaultParams }) => {
         </div>
       </div>
 
+      {/* Category */}
       <div className="mb-6">
         <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
           Category
@@ -127,7 +127,7 @@ const RecipeFilters = ({ defaultParams }) => {
                   const updated = toggleValue(category, setCategory, cat);
                   applyFilters({ category: updated });
                 }}
-                className="w-4 h-4 rounded border-gray-300 text-orange-500 focus:ring-orange-400"
+                className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-orange-500 focus:ring-orange-400"
               />
               {cat}
             </label>
@@ -137,12 +137,14 @@ const RecipeFilters = ({ defaultParams }) => {
 
       {/* Cuisine */}
       <div className="mb-6">
-        <p className="text-sm font-medium text-gray-700 mb-3">Cuisine</p>
+        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+          Cuisine
+        </p>
         <div className="space-y-2.5">
           {CUISINES.map((cuisine) => (
             <label
               key={cuisine}
-              className="flex items-center gap-2.5 text-sm text-gray-600 cursor-pointer"
+              className="flex items-center gap-2.5 text-sm text-gray-600 dark:text-gray-400 cursor-pointer"
             >
               <input
                 type="checkbox"
@@ -155,7 +157,7 @@ const RecipeFilters = ({ defaultParams }) => {
                   );
                   applyFilters({ cuisineType: updated });
                 }}
-                className="w-4 h-4 rounded border-gray-300 text-orange-500 focus:ring-orange-400"
+                className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-orange-500 focus:ring-orange-400"
               />
               {cuisine}
             </label>
@@ -165,7 +167,7 @@ const RecipeFilters = ({ defaultParams }) => {
 
       {/* Prep time range */}
       <div>
-        <p className="text-sm font-medium text-gray-700 mb-3">
+        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
           Preparation Time (min)
         </p>
         <div className="flex gap-3">
@@ -175,7 +177,7 @@ const RecipeFilters = ({ defaultParams }) => {
             onChange={(e) => setMinTime(e.target.value)}
             onBlur={() => applyFilters({ minTime })}
             placeholder="Min"
-            className="w-1/2 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-1/2 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
           <input
             type="number"
@@ -183,7 +185,7 @@ const RecipeFilters = ({ defaultParams }) => {
             onChange={(e) => setMaxTime(e.target.value)}
             onBlur={() => applyFilters({ maxTime })}
             placeholder="Max"
-            className="w-1/2 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-1/2 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
         </div>
       </div>
