@@ -28,8 +28,8 @@ export default function Footer() {
             </Link>
 
             <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-              হাজারো রেসিপি খুঁজে বের করো, নিজের রান্নার গল্প শেয়ার করো, আর
-              কমিউনিটি থেকে অনুপ্রেরণা নাও।
+              Discover thousands of recipes, share your cooking stories, and get
+              inspired by the community.
             </p>
 
             <div className="mt-5 flex items-center gap-3">
@@ -134,15 +134,15 @@ export default function Footer() {
             <div className="space-y-4 text-sm text-gray-500 dark:text-gray-400">
               <div className="flex gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
-                <span>Dhaka, Bangladesh</span>
+                <span>Chattagram, Bangladesh</span>
               </div>
               <div className="flex gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-orange-500" />
-                <span>+880 1234-567890</span>
+                <span>+880 1852483885</span>
               </div>
               <div className="flex gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-orange-500" />
-                <span>support@techbazaar.com</span>
+                <span>support@recipeshare.com</span>
               </div>
             </div>
           </div>
@@ -151,7 +151,7 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-3 border-t border-gray-100 dark:border-gray-800 py-6 text-center text-sm text-gray-500 dark:text-gray-400 md:flex-row">
           <p className="flex items-center gap-1.5">
             <ChefHat className="w-4 h-4 text-orange-500" />©{" "}
-            {new Date().getFullYear()} Tech Bazaar. All rights reserved.
+            {new Date().getFullYear()} Recipe Share. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Link

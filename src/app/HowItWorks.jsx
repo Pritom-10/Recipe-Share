@@ -7,18 +7,18 @@ const steps = [
   {
     icon: Search,
     title: "Discover",
-    description:
-      "নাম, ক্যাটাগরি, বা cuisine দিয়ে হাজারো রেসিপি খুঁজে বের করো।",
+    description: "Discover thousands of recipes by name, category, or cuisine.",
   },
   {
     icon: ChefHat,
     title: "Cook",
-    description: "ধাপে ধাপে ইনস্ট্রাকশন অনুসরণ করে নিজের রান্নাঘরে বানাও।",
+    description:
+      "Follow the step-by-step instructions and cook in your own kitcheno.",
   },
   {
     icon: Heart,
     title: "Share & Like",
-    description: "নিজের রেসিপি যোগ করো, অন্যদের পছন্দ করো, favourite এ রাখো।",
+    description: "Add your own recipes, like others', and save to favorites.",
   },
 ];
 
@@ -31,7 +31,7 @@ const HowItWorks = () => {
             How It Works
           </h2>
           <p className="text-gray-500 dark:text-gray-400">
-            তিনটা সহজ ধাপে শুরু করো
+            Get started in 3 easy steps
           </p>
         </div>
 

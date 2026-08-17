@@ -18,7 +18,7 @@ const PopularRecipes = async () => {
         </h2>
       </div>
       <p className="text-gray-500 dark:text-gray-400 mb-8">
-        কমিউনিটির সবচেয়ে পছন্দের রেসিপিগুলো দেখো।
+        Check out the communitys favorite recipes.
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

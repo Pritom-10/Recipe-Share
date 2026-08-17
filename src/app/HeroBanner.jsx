@@ -41,8 +41,8 @@ const HeroBanner = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-10"
         >
-          একটা জায়গায় হাজারো রেসিপি খুঁজে বের করো, নিজের রান্নার গল্প শেয়ার
-          করো, আর কমিউনিটি থেকে অনুপ্রেরণা নাও।
+          Find thousands of recipes in one place, share your own cooking
+          stories, and get inspired by the community.
         </motion.p>
 
         <motion.div
