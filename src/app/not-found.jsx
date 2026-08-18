@@ -115,11 +115,11 @@ export default function NotFound() {
         </div>
 
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
-          এই পেজটা খুঁজে পাওয়া যায়নি
+          This page could not be found
         </h1>
         <p className="text-gray-500 mb-8 max-w-md mx-auto">
-          তুমি যে পেজটা খুঁজছ সেটা হয়তো সরিয়ে ফেলা হয়েছে, নাম বদলেছে, অথবা
-          কখনো এখানে ছিলই না।
+          The page you are looking for might have been removed, had its name
+          changed, or was never here
         </p>
 
         <Link

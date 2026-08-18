@@ -1,4 +1,3 @@
-
 "use client";
 
 import { authClient } from "@/lib/auth-client";
@@ -75,23 +74,27 @@ const DashboardSidebar = () => {
         </span>
       </div>
 
-      {/* Quick links — Home & Browse Recipes */}
-      <div className="px-4 pt-3 space-y-1.5">
-        {quickLinks.map((item) => (
-          <Link
-            key={item.title}
-            href={item.href}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-white/70 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 transition-all border border-dashed border-gray-200 dark:border-gray-700"
-          >
-            <item.icon className="w-4 h-4" />
-            {item.title}
-          </Link>
-        ))}
-      </div>
+      
+      {role !== "admin" && (
+        <>
+          <div className="px-4 pt-3 space-y-1.5">
+            {quickLinks.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-white/70 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 transition-all border border-dashed border-gray-200 dark:border-gray-700"
+              >
+                <item.icon className="w-4 h-4" />
+                {item.title}
+              </Link>
+            ))}
+          </div>
 
-      <div className="px-6 py-3">
-        <div className="h-px bg-white/60 dark:bg-gray-800" />
-      </div>
+          <div className="px-6 py-3">
+            <div className="h-px bg-white/60 dark:bg-gray-800" />
+          </div>
+        </>
+      )}
 
       <nav className="p-4 pt-0 space-y-1.5">
         {menu.map((item) => {
