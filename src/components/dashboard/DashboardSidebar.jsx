@@ -2,6 +2,7 @@
 
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import { Receipt } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -26,6 +27,7 @@ const iconMap = {
   Profile: User,
   "Manage Users": Users,
   "Manage Recipes": UtensilsCrossed,
+  Transactions: Receipt,
   Reports: Flag,
 };
 
@@ -52,6 +54,7 @@ const DashboardSidebar = () => {
       { title: "Overview", href: "/dashboard/admin" },
       { title: "Manage Users", href: "/dashboard/admin/users" },
       { title: "Manage Recipes", href: "/dashboard/admin/recipes" },
+      { title: "Transactions", href: "/dashboard/admin/transactions" },
       { title: "Reports", href: "/dashboard/admin/reports" },
     ],
   };

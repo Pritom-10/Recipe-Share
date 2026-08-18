@@ -80,6 +80,17 @@ export const updateReportStatus = async (id, status, token) => {
   return await res.json();
 };
 
+export const getAdminTransactions = async (token, page = 1) => {
+  const res = await fetch(
+    `${SERVER_URL}/admin/transactions?page=${page}&limit=10`,
+    {
+      headers: { authorization: `Bearer ${token}` },
+      cache: "no-store",
+    },
+  );
+  return await res.json();
+};
+
 export const toggleFeatureRecipe = async (id, token) => {
   const res = await fetch(`${SERVER_URL}/admin/recipes/${id}/feature`, {
     method: "PATCH",

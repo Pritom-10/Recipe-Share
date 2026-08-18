@@ -218,6 +218,7 @@ export default async function Success({ searchParams }) {
             </div>
           </div>
 
+         
           <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-gray-400">
             <span className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>

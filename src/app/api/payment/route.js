@@ -39,6 +39,8 @@ export async function POST(request) {
       ],
       metadata: {
         userId,
+        userName: user?.name || "",
+        userEmail: user?.email || "",
         recipeId,
         recipeName,
         preparationTime,
