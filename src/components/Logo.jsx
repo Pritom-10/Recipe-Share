@@ -1,4 +1,3 @@
-
 const Logo = ({ className = "w-10 h-10" }) => {
   return (
     <svg
@@ -13,12 +12,22 @@ const Logo = ({ className = "w-10 h-10" }) => {
         </linearGradient>
       </defs>
       <rect width="48" height="48" rx="12" fill="url(#logoGradient)" />
-      <path
-        d="M24 12c-3.3 0-6 2.7-6 6 0 1.5.6 2.9 1.5 3.9-2.1 1-3.5 3.1-3.5 5.6v1.5h16v-1.5c0-2.5-1.4-4.6-3.5-5.6.9-1 1.5-2.4 1.5-3.9 0-3.3-2.7-6-6-6z"
-        fill="white"
-      />
-      <rect x="21" y="30" width="6" height="6" rx="1" fill="white" />
-      <circle cx="24" cy="17" r="1.6" fill="url(#logoGradient)" />
+      {/* Chef Hat */}
+      <g>
+        {/* Puffy top */}
+        <circle cx="18" cy="20" r="6.5" fill="white" />
+        <circle cx="24" cy="16" r="8" fill="white" />
+        <circle cx="30" cy="20" r="6.5" fill="white" />
+        {/* Band */}
+        <rect x="15" y="25" width="18" height="8" rx="3" fill="white" />
+        {/* Small heart accent on band */}
+        <path
+          d="M24 28.5c-1.8-1.5-3-2.8-3-3.8 0-.8.7-1.5 1.5-1.5.5 0 1.2.3 1.5 1 .3-.7 1-1 1.5-1 .8 0 1.5.7 1.5 1.5 0 1-1.2 2.3-3 3.8z"
+          fill="url(#logoGradient)"
+          stroke="white"
+          strokeWidth="0.5"
+        />
+      </g>
     </svg>
   );
 };
