@@ -37,7 +37,7 @@ const HowItWorks = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           {steps.map((step, i) => (
-            <motion.div key={step.title} /* ...same */ className="text-center">
+            <motion.div key={step.title} className="text-center">
               <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 flex items-center justify-center mb-4 shadow-lg">
                 <step.icon className="w-8 h-8 text-white" />
               </div>

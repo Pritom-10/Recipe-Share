@@ -10,7 +10,7 @@ export default function NotFound() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-amber-300/30 rounded-full blur-3xl" />
 
       <div className="relative w-full max-w-lg text-center">
-        {/* Illustration */}
+        
         <svg
           viewBox="0 0 240 200"
           className="w-64 h-56 mx-auto mb-6"
@@ -29,7 +29,7 @@ export default function NotFound() {
             </linearGradient>
           </defs>
 
-          {/* Plate */}
+          
           <ellipse
             cx="120"
             cy="150"
@@ -55,7 +55,7 @@ export default function NotFound() {
             strokeWidth="2"
           />
 
-          {/* Fork */}
+       
           <g transform="translate(60,70) rotate(-20)">
             <rect x="0" y="0" width="6" height="60" rx="3" fill="#9ca3af" />
             <rect x="-6" y="-14" width="4" height="18" rx="2" fill="#9ca3af" />
@@ -63,13 +63,12 @@ export default function NotFound() {
             <rect x="6" y="-14" width="4" height="18" rx="2" fill="#9ca3af" />
           </g>
 
-          {/* Spoon */}
+          
           <g transform="translate(180,70) rotate(20)">
             <rect x="-3" y="0" width="6" height="55" rx="3" fill="#9ca3af" />
             <ellipse cx="0" cy="-8" rx="10" ry="14" fill="#9ca3af" />
           </g>
 
-          {/* 404 text as "missing food" */}
           <text
             x="120"
             y="128"
@@ -82,7 +81,6 @@ export default function NotFound() {
             404
           </text>
 
-          {/* Steam swirls */}
           <path
             d="M100 55 Q95 45 100 38 Q105 30 100 22"
             stroke="#fdba74"

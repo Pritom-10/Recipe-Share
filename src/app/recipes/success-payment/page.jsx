@@ -56,11 +56,11 @@ export default async function Success({ searchParams }) {
     return (
       <section className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center p-4 md:p-8">
         <div className="max-w-4xl w-full">
-          {/* Main Card */}
+         
           <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
-            {/* Success Header with Gradient */}
+
             <div className="bg-gradient-to-r from-emerald-500 to-teal-600 px-8 py-12 md:py-16 text-center relative overflow-hidden">
-              {/* Decorative circles */}
+            
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -ml-24 -mb-24"></div>
 
@@ -77,9 +77,9 @@ export default async function Success({ searchParams }) {
               </div>
             </div>
 
-            {/* Content Area */}
+            
             <div className="px-6 md:px-10 py-8 md:py-12">
-              {/* Order Summary */}
+            
               <div className="grid md:grid-cols-2 gap-6 mb-10">
                 <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                   <div className="flex items-center gap-3 mb-2">
@@ -104,7 +104,7 @@ export default async function Success({ searchParams }) {
                 </div>
               </div>
 
-              {/* Order Details */}
+         
               <div className="mb-10">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
                   <span className="w-1 h-8 bg-emerald-500 rounded-full"></span>
@@ -149,7 +149,7 @@ export default async function Success({ searchParams }) {
                     <p className="text-gray-500">Order items loading...</p>
                   )}
 
-                  {/* Total */}
+                 
                   <div className="mt-6 pt-6 border-t-2 border-gray-200">
                     <div className="flex justify-between items-center">
                       <span className="text-lg font-semibold text-gray-700">
@@ -163,7 +163,7 @@ export default async function Success({ searchParams }) {
                 </div>
               </div>
 
-              {/* Email Confirmation */}
+            
               <div className="bg-emerald-50 rounded-2xl p-6 border border-emerald-100 mb-8">
                 <div className="flex items-start gap-4">
                   <div className="p-2 bg-emerald-100 rounded-full">
@@ -186,7 +186,7 @@ export default async function Success({ searchParams }) {
                 </div>
               </div>
 
-              {/* Action Buttons */}
+            
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/dashboard/my-purchased"
@@ -203,7 +203,7 @@ export default async function Success({ searchParams }) {
                 </Link>
               </div>
 
-              {/* Support Message */}
+       
               <div className="mt-8 text-center">
                 <p className="text-sm text-gray-500">
                   Need help? Contact us at{" "}
@@ -218,7 +218,6 @@ export default async function Success({ searchParams }) {
             </div>
           </div>
 
-          {/* Trust Badges */}
           <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-gray-400">
             <span className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>

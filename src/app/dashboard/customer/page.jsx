@@ -71,7 +71,7 @@ const CustomerDashboard = async ({ searchParams }) => {
             {overview.totalLikes}
           </p>
         </div>
-        {/* নতুন কার্ড যোগ করা হলো */}
+        
         <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-6">
           <p className="text-sm text-amber-600 mb-1">Total Favourites</p>
           <p className="text-3xl font-bold text-amber-600 flex items-center gap-2">

@@ -63,7 +63,7 @@ export default function BannerSlider() {
         ))}
       </div>
 
-      {/* Navigation */}
+     
       <button
         onClick={() => emblaApi?.scrollPrev()}
         className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 shadow-lg"
@@ -78,7 +78,7 @@ export default function BannerSlider() {
         <ChevronRight/>
       </button>
 
-      {/* Dots */}
+      
       <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
         {banners.map((_, index) => (
           <button

@@ -93,7 +93,7 @@ const UsersTable = ({
 
   return (
     <div>
-      {/* Search */}
+      
       <div className="max-w-sm mb-6">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -107,7 +107,7 @@ const UsersTable = ({
         </div>
       </div>
 
-      {/* Table */}
+      
 
       <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm">
         <table className="w-full text-sm">
@@ -214,7 +214,7 @@ const UsersTable = ({
         </table>
       </div>
 
-      {/* Pagination */}
+  
       {totalPage > 1 && (
         <div className="flex justify-center items-center gap-2 mt-6">
           {Array.from({ length: totalPage }).map((_, i) => (

@@ -87,7 +87,7 @@ const ProfilePage = () => {
         onSubmit={handleSubmit}
         className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm p-6 space-y-6"
       >
-        {/* Image */}
+       
         <div className="flex justify-center">
           <label className="relative cursor-pointer group">
             <div className="w-28 h-28 rounded-full overflow-hidden bg-gray-100 border-4 border-white shadow-md flex items-center justify-center">
@@ -114,7 +114,7 @@ const ProfilePage = () => {
           </label>
         </div>
 
-        {/* Name */}
+        
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Name

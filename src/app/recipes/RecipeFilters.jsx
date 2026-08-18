@@ -92,7 +92,7 @@ const RecipeFilters = ({ defaultParams }) => {
         </button>
       </div>
 
-      {/* Search */}
+  
       <div className="mb-6">
         <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Search by name
@@ -109,7 +109,7 @@ const RecipeFilters = ({ defaultParams }) => {
         </div>
       </div>
 
-      {/* Category */}
+      
       <div className="mb-6">
         <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
           Category
@@ -135,7 +135,7 @@ const RecipeFilters = ({ defaultParams }) => {
         </div>
       </div>
 
-      {/* Cuisine */}
+      
       <div className="mb-6">
         <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
           Cuisine
@@ -165,7 +165,7 @@ const RecipeFilters = ({ defaultParams }) => {
         </div>
       </div>
 
-      {/* Prep time range */}
+    
       <div>
         <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
           Preparation Time (min)
