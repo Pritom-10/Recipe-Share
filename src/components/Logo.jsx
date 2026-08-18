@@ -12,15 +12,15 @@ const Logo = ({ className = "w-10 h-10" }) => {
         </linearGradient>
       </defs>
       <rect width="48" height="48" rx="12" fill="url(#logoGradient)" />
-      {/* Chef Hat */}
+     
       <g>
-        {/* Puffy top */}
+        
         <circle cx="18" cy="20" r="6.5" fill="white" />
         <circle cx="24" cy="16" r="8" fill="white" />
         <circle cx="30" cy="20" r="6.5" fill="white" />
-        {/* Band */}
+        
         <rect x="15" y="25" width="18" height="8" rx="3" fill="white" />
-        {/* Small heart accent on band */}
+        
         <path
           d="M24 28.5c-1.8-1.5-3-2.8-3-3.8 0-.8.7-1.5 1.5-1.5.5 0 1.2.3 1.5 1 .3-.7 1-1 1.5-1 .8 0 1.5.7 1.5 1.5 0 1-1.2 2.3-3 3.8z"
           fill="url(#logoGradient)"
