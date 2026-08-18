@@ -70,10 +70,9 @@ const EditRecipeModal = ({ recipe, isOpen, onOpenChange, onUpdated }) => {
         instructions: instructions.filter((item) => item.trim() !== ""),
       };
 
-      const { data } = await authClient.token();
-      const token = data?.token;
+      
 
-      const result = await updateRecipe(recipe._id, updateData, token);
+      const result = await updateRecipe(recipe._id, updateData);
 
       if (result.success) {
         toast.success("Recipe updated successfully");

@@ -19,10 +19,9 @@ const FavouritesGrid = ({ recipes }) => {
 
     startTransition(async () => {
       try {
-        const { data } = await authClient.token();
-        const token = data?.token;
+        
 
-        const result = await toggleFavourite(recipeId, token);
+        const result = await toggleFavourite(recipeId);
 
         if (result.favourited !== false) {
           throw new Error();

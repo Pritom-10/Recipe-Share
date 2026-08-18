@@ -24,6 +24,7 @@ const ReportButton = ({ recipeId }) => {
     setIsOpen(true);
   };
 
+
   const handleSubmit = async () => {
     if (!selectedReason) {
       toast.error("Please select a reason");
@@ -32,26 +33,18 @@ const ReportButton = ({ recipeId }) => {
 
     setIsSubmitting(true);
     try {
-      const { data } = await authClient.token();
-      const token = data?.token;
-
-      const result = await reportRecipe(
-        recipeId,
-        selectedReason,
-        details,
-        token,
-      );
+      const result = await reportRecipe(recipeId, selectedReason, details);
 
       if (result.success) {
-        toast.success("Report submitted successfully, thank you!");
+        toast.success("রিপোর্ট জমা হয়েছে, ধন্যবাদ");
         setIsOpen(false);
         setSelectedReason("");
         setDetails("");
       } else {
-        toast.error(result.error || "Something went wrong");
+        toast.error(result.error || "কিছু একটা সমস্যা হয়েছে");
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("কিছু একটা সমস্যা হয়েছে");
     } finally {
       setIsSubmitting(false);
     }
@@ -129,6 +122,6 @@ const ReportButton = ({ recipeId }) => {
       )}
     </>
   );
-};
+};;
 
 export default ReportButton;

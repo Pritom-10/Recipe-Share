@@ -81,10 +81,9 @@ const RecipesTable = ({
 
     startTransition(async () => {
       try {
-        const { data } = await authClient.token();
-        const token = data?.token;
+        
 
-        const result = await adminDeleteRecipe(id, token);
+        const result = await adminDeleteRecipe(id);
         if (!result.success) throw new Error();
         toast.success("Recipe deleted successfully");
         router.refresh();
@@ -106,10 +105,8 @@ const RecipesTable = ({
 
     startTransition(async () => {
       try {
-        const { data } = await authClient.token();
-        const token = data?.token;
-
-        const result = await toggleFeatureRecipe(recipe._id, token);
+       
+        const result = await toggleFeatureRecipe(recipe._id);
         if (!result.success) throw new Error();
         toast.success(
           nextFeatured

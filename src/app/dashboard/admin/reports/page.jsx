@@ -1,5 +1,4 @@
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import {getServerSession} from "@/lib/getServerSession";
 import { getAdminReports } from "@/lib/actions/admin";
 import ReportsTable from "./ReportsTable";
 
@@ -7,17 +6,21 @@ const ManageReportsPage = async ({ searchParams }) => {
   const params = await searchParams;
   const page = Number(params?.page) || 1;
 
-  const headersList = await headers();
-  const { token } = await auth.api.getToken({ headers: headersList });
 
-  const result = await getAdminReports(token, page);
+  const result = await getAdminReports( page);
 
-  if (result.msg) {
+  const session = await getServerSession();
+
+  if (!session?.user) {
+    return (
+      <div className="text-center py-20 text-red-500">Need to Login</div>
+    );
+  }
+
+  if (session.user.role !== "admin") {
     return (
       <div className="text-center py-20 text-red-500">
-        {result.msg === "Forbidden: Admins only"
-          ? "You don't have permission to view this page."
-          : "Need to Login"}
+        You are not permited for this page
       </div>
     );
   }

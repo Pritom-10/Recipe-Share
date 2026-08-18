@@ -1,5 +1,4 @@
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import {getServerSession} from "@/lib/getServerSession";
 import { getAdminTransactions } from "@/lib/actions/admin";
 import TransactionsTable from "./TransactionsTable";
 
@@ -7,20 +6,25 @@ const ManageTransactionsPage = async ({ searchParams }) => {
   const params = await searchParams;
   const page = Number(params?.page) || 1;
 
-  const headersList = await headers();
-  const { token } = await auth.api.getToken({ headers: headersList });
+ 
 
-  const result = await getAdminTransactions(token, page);
+  const result = await getAdminTransactions(page);
 
-  if (result.msg) {
-    return (
-      <div className="text-center py-20 text-red-500">
-        {result.msg === "Forbidden: Admins only"
-          ? "You are not authorized to view this page."
-          : "Need to Login"}
-      </div>
-    );
-  }
+const session = await getServerSession();
+
+if (!session?.user) {
+  return (
+    <div className="text-center py-20 text-red-500">Need to Login</div>
+  );
+}
+
+if (session.user.role !== "admin") {
+  return (
+    <div className="text-center py-20 text-red-500">
+      You are not permited for this page
+    </div>
+  );
+}
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">

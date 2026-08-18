@@ -70,11 +70,10 @@ const UsersTable = ({
 
     startTransition(async () => {
       try {
-        const { data } = await authClient.token();
-        const token = data?.token;
+        4
 
         const action = nextBlocked ? blockUser : unblockUser;
-        const result = await action(user._id, token);
+        const result = await action(user._id);
 
         if (!result.success) throw new Error();
         toast.success(

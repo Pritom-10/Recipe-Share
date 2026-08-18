@@ -1,8 +1,9 @@
 "use server";
-
+import { getServerToken } from "@/lib/getServerToken";
 const SERVER_URL = process.env.SERVER_URL;
 
-export const getUsers = async (token, page = 1, search = "") => {
+export const getUsers = async (page = 1, search = "") => {
+  const token = await getServerToken();
   const res = await fetch(
     `${SERVER_URL}/admin/users?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
     {
@@ -13,7 +14,8 @@ export const getUsers = async (token, page = 1, search = "") => {
   return await res.json();
 };
 
-export const blockUser = async (id, token) => {
+export const blockUser = async (id) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/admin/users/${id}/block`, {
     method: "PATCH",
     headers: { authorization: `Bearer ${token}` },
@@ -21,7 +23,8 @@ export const blockUser = async (id, token) => {
   return await res.json();
 };
 
-export const unblockUser = async (id, token) => {
+export const unblockUser = async (id) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/admin/users/${id}/unblock`, {
     method: "PATCH",
     headers: { authorization: `Bearer ${token}` },
@@ -29,7 +32,8 @@ export const unblockUser = async (id, token) => {
   return await res.json();
 };
 
-export const getAdminRecipes = async (token, page = 1, search = "") => {
+export const getAdminRecipes = async (page = 1, search = "") => {
+  const token = await getServerToken();
   const res = await fetch(
     `${SERVER_URL}/admin/recipes?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
     {
@@ -40,7 +44,8 @@ export const getAdminRecipes = async (token, page = 1, search = "") => {
   return await res.json();
 };
 
-export const adminDeleteRecipe = async (id, token) => {
+export const adminDeleteRecipe = async (id) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/admin/recipes/${id}`, {
     method: "DELETE",
     headers: { authorization: `Bearer ${token}` },
@@ -48,7 +53,8 @@ export const adminDeleteRecipe = async (id, token) => {
   return await res.json();
 };
 
-export const adminUpdateRecipe = async (id, data, token) => {
+export const adminUpdateRecipe = async (id, data) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/admin/recipes/${id}`, {
     method: "PATCH",
     headers: {
@@ -60,7 +66,20 @@ export const adminUpdateRecipe = async (id, data, token) => {
   return await res.json();
 };
 
-export const getAdminReports = async (token, page = 1) => {
+export const removeReportedRecipe = async (reportId) => {
+  const token = await getServerToken();
+  const res = await fetch(
+    `${SERVER_URL}/admin/reports/${reportId}/remove-recipe`,
+    {
+      method: "DELETE",
+      headers: { authorization: `Bearer ${token}` },
+    },
+  );
+  return await res.json();
+};
+
+export const getAdminReports = async (page = 1) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/admin/reports?page=${page}&limit=10`, {
     headers: { authorization: `Bearer ${token}` },
     cache: "no-store",
@@ -68,7 +87,8 @@ export const getAdminReports = async (token, page = 1) => {
   return await res.json();
 };
 
-export const updateReportStatus = async (id, status, token) => {
+export const updateReportStatus = async (id, status) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/admin/reports/${id}`, {
     method: "PATCH",
     headers: {
@@ -80,7 +100,8 @@ export const updateReportStatus = async (id, status, token) => {
   return await res.json();
 };
 
-export const getAdminTransactions = async (token, page = 1) => {
+export const getAdminTransactions = async (page = 1) => {
+  const token = await getServerToken();
   const res = await fetch(
     `${SERVER_URL}/admin/transactions?page=${page}&limit=10`,
     {
@@ -91,7 +112,8 @@ export const getAdminTransactions = async (token, page = 1) => {
   return await res.json();
 };
 
-export const toggleFeatureRecipe = async (id, token) => {
+export const toggleFeatureRecipe = async (id) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/admin/recipes/${id}/feature`, {
     method: "PATCH",
     headers: { authorization: `Bearer ${token}` },
@@ -99,7 +121,9 @@ export const toggleFeatureRecipe = async (id, token) => {
   return await res.json();
 };
 
-export const getAdminOverview = async (token) => {
+
+export const getAdminOverview = async () => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/admin/overview`, {
     headers: { authorization: `Bearer ${token}` },
     cache: "no-store",

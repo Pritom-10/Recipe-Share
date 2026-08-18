@@ -1,5 +1,4 @@
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import {getServerSession} from "@/lib/getServerSession";
 import { getAdminRecipes } from "@/lib/actions/admin";
 import RecipesTable from "./RecipesTable";
 
@@ -8,17 +7,25 @@ const ManageRecipesPage = async ({ searchParams }) => {
   const page = Number(params?.page) || 1;
   const search = params?.search || "";
 
-  const headersList = await headers();
-  const { token } = await auth.api.getToken({ headers: headersList });
 
-  const result = await getAdminRecipes(token, page, search);
 
-  if (result.msg) {
+  const result = await getAdminRecipes( page, search);
+
+ const session = await getServerSession();
+
+  if (!session?.user) {
     return (
       <div className="text-center py-20 text-red-500">
-        {result.msg === "Forbidden: Admins only"
-          ? "তোমার এই পেজ দেখার অনুমতি নেই।"
-          : "লগইন করা প্রয়োজন।"}
+        Need to Login
+
+      </div>
+    );
+  }
+
+  if (session.user.role !== "admin") {
+    return (
+      <div className="text-center py-20 text-red-500">
+        You are not permited for this page
       </div>
     );
   }

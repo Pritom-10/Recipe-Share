@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Heart, Bookmark } from "lucide-react";
@@ -19,11 +20,9 @@ const RecipeActions = ({
 
   const { data: session } = authClient.useSession();
 
-
-
   const handleLike = () => {
     if (!session?.user) {
-      toast.error("Like the recipe by logging in");
+      toast.error("Need to log in to like the recipe");
       return;
     }
 
@@ -33,12 +32,7 @@ const RecipeActions = ({
 
     startTransition(async () => {
       try {
-        const { data } = await authClient.token();
-        const token = data?.token;
-
-        if (!token) throw new Error("No token");
-
-        const result = await toggleLike(recipeId, token);
+        const result = await toggleLike(recipeId);
         if (typeof result.liked !== "boolean") {
           throw new Error();
         }
@@ -52,7 +46,7 @@ const RecipeActions = ({
 
   const handleFavourite = () => {
     if (!session?.user) {
-      toast.error("Favourite the recipe by logging in");
+      toast.error("Need to log in to favourite the recipe");
       return;
     }
 
@@ -61,24 +55,20 @@ const RecipeActions = ({
 
     startTransition(async () => {
       try {
-        const { data } = await authClient.token();
-        const token = data?.token;
-
-        if (!token) throw new Error("No token");
-
-        const result = await toggleFavourite(recipeId, token);
+        const result = await toggleFavourite(recipeId);
         if (typeof result.favourited !== "boolean") {
           throw new Error();
         }
         toast.success(
-          nextFav ? "Recipe added to favourites" : "Recipe removed from favourites",
+          nextFav ? "Favourites added" : "Favourites Remove",
         );
       } catch (error) {
         setIsFavourited(!nextFav);
-        toast.error("Something went wrong");
+        toast.error("Something went wrongu");
       }
     });
   };
+
   return (
     <div className="flex items-center gap-3">
       <button

@@ -50,10 +50,9 @@ const EditRecipeModalAdmin = ({ recipe, isOpen, onOpenChange, onUpdated }) => {
         preparationTime: Number(preparationTime) || 0,
       };
 
-      const { data } = await authClient.token();
-      const token = data?.token;
+     
 
-      const result = await adminUpdateRecipe(recipe._id, updateData, token);
+      const result = await adminUpdateRecipe(recipe._id, updateData);
 
       if (result.success) {
         toast.success("Recipe updated successfully");

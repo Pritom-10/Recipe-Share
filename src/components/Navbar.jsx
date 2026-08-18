@@ -19,6 +19,8 @@ const Navbar = () => {
   const role = user?.role || "customer";
   const dashboardHref =
     role === "admin" ? "/dashboard/admin" : "/dashboard/customer";
+  
+
 
   const pathname = usePathname();
   const router = useRouter();
@@ -33,7 +35,7 @@ const Navbar = () => {
     if (key === "dashboard") {
       router.push(dashboardHref);
     } else if (key === "profile") {
-      router.push("/dashboard/profile");
+      router.push("/dashboard/customer/profile");
     }
   };
 

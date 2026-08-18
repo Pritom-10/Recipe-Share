@@ -58,10 +58,7 @@ export function AddRecipe() {
         like: 0,
       };
 
-      const { data } = await authClient.token();
-      const token = data?.token;
-
-      const result = await addRecipe(recipeData, token);
+      const result = await addRecipe(recipeData);
 
       if (result.success) {
         toast.success("Recipe added successfully!");

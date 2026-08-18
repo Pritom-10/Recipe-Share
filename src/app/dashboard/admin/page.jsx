@@ -1,46 +1,48 @@
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import {getServerSession} from "@/lib/getServerSession";
 import { getAdminOverview } from "@/lib/actions/admin";
 import { Users, ChefHat, Crown, Flag } from "lucide-react";
 
 const AdminDashboard = async () => {
-  const headersList = await headers();
-  const { token } = await auth.api.getToken({ headers: headersList });
+  
+ const session = await getServerSession();
 
-  const stats = await getAdminOverview(token);
+ if (!session?.user) {
+   return (
+     <div className="text-center py-20 text-red-500">Need to Login</div>
+   );
+ }
 
-  if (stats.msg) {
-    return (
-      <div className="text-center py-20 text-red-500">
-        {stats.msg === "Forbidden: Admins only"
-          ? "You don't have permission to view this page."
-          : "Need to Login"}
-      </div>
-    );
-  }
+ if (session.user.role !== "admin") {
+   return (
+     <div className="text-center py-20 text-red-500">
+       You are not permited for this page
+     </div>
+   );
+ }
+ const result = await getAdminOverview();
 
   const cards = [
     {
       label: "Total Users",
-      value: stats.totalUsers,
+      value: result.totalUsers,
       icon: Users,
       color: "from-blue-500 to-indigo-500",
     },
     {
       label: "Total Recipes",
-      value: stats.totalRecipes,
+      value: result.totalRecipes,
       icon: ChefHat,
       color: "from-orange-500 to-rose-500",
     },
     {
       label: "Total Premium Members",
-      value: stats.totalPremiumMembers,
+      value: result.totalPremiumMembers,
       icon: Crown,
       color: "from-amber-400 to-yellow-500",
     },
     {
       label: "Total Reports",
-      value: stats.totalReports,
+      value: result.totalReports,
       icon: Flag,
       color: "from-red-500 to-rose-600",
     },

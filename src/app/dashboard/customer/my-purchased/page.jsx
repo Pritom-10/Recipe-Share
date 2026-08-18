@@ -1,5 +1,4 @@
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import { getServerSession } from "@/lib/getServerSession";
 import { getMyPurchased } from "@/lib/actions/purchased";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,20 +8,22 @@ const MyPurchasedPage = async ({ searchParams }) => {
   const params = await searchParams;
   const page = Number(params?.page) || 1;
 
-  const headersList = await headers();
-  const { token } = await auth.api.getToken({ headers: headersList });
+  const session = await getServerSession();
 
-  if (!token) {
+  if (!session?.user) {
     return (
-      <div className="text-center py-20 text-red-500">লগইন করা প্রয়োজন।</div>
+      <div className="text-center py-20 text-red-500">
+        Need to be logged in to view purchased recipes.
+      </div>
     );
   }
+
 
   const {
     data,
     total_page,
     page: currentPage,
-  } = await getMyPurchased(token, page);
+  } = await getMyPurchased(page);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
@@ -33,7 +34,8 @@ const MyPurchasedPage = async ({ searchParams }) => {
 
       {data.length === 0 ? (
         <p className="text-center text-gray-500 py-16">
-          You have not purchased any recipes yet. Start exploring and purchase your favorite recipes to see them here!
+          You have not purchased any recipes yet. Start exploring and purchase
+          your favorite recipes to see them here!
         </p>
       ) : (
         <div className="space-y-4">

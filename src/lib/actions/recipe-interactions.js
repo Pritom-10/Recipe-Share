@@ -1,8 +1,9 @@
 "use server";
-
+import { getServerToken } from "@/lib/getServerToken";
 const SERVER_URL = process.env.SERVER_URL;
 
-export const toggleLike = async (recipeId, token) => {
+export const toggleLike = async (recipeId) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/recipes/${recipeId}/like`, {
     method: "POST",
     headers: {
@@ -13,7 +14,8 @@ export const toggleLike = async (recipeId, token) => {
 };
 
 
-export const reportRecipe = async (recipeId, reason, details, token) => {
+export const reportRecipe = async (recipeId, reason, details) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/recipes/${recipeId}/report`, {
     method: "POST",
     headers: {
@@ -26,7 +28,8 @@ export const reportRecipe = async (recipeId, reason, details, token) => {
 };
 
 
-export const toggleFavourite = async (recipeId, token) => {
+export const toggleFavourite = async (recipeId) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/recipes/${recipeId}/favourite`, {
     method: "POST",
     headers: {

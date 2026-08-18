@@ -22,10 +22,9 @@ const MyRecipesGrid = ({ recipes }) => {
 
     startTransition(async () => {
       try {
-        const { data } = await authClient.token();
-        const token = data?.token;
+       
 
-        const result = await deleteRecipe(id, token);
+        const result = await deleteRecipe(id);
 
         if (!result.success) throw new Error();
         toast.success("Recipe deleted successfully");

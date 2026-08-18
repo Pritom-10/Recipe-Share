@@ -1,5 +1,4 @@
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import { getServerSession } from "@/lib/getServerSession";
 import { getUsers } from "@/lib/actions/admin";
 import UsersTable from "./UsersTable";
 
@@ -8,17 +7,23 @@ const ManageUsersPage = async ({ searchParams }) => {
   const page = Number(params?.page) || 1;
   const search = params?.search || "";
 
-  const headersList = await headers();
-  const { token } = await auth.api.getToken({ headers: headersList });
 
-  const result = await getUsers(token, page, search);
+  const result = await getUsers( page, search);
 
-  if (result.msg) {
+ const session = await getServerSession();
+
+  if (!session?.user) {
     return (
       <div className="text-center py-20 text-red-500">
-        {result.msg === "Forbidden: Admins only"
-          ? "You don't have permission to view this page."
-          : "Need to Login"}
+        Need to Login
+      </div>
+    );
+  }
+
+  if (session.user.role !== "admin") {
+    return (
+      <div className="text-center py-20 text-red-500">
+        You are not permited for this page
       </div>
     );
   }

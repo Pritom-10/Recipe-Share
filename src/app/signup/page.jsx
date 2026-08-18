@@ -31,15 +31,26 @@ export default function SignUpPage() {
     }
   };
 
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name");
     const email = formData.get("email");
     const password = formData.get("password");
     const imageFile = formData.get("image");
+
+    // নতুন — password validation
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    if (!passwordRegex.test(password)) {
+      toast.error(
+        "Password must be at least 6 characters long and contain both uppercase and lowercase letters.",
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
       let imageUrl = "";
@@ -184,6 +195,9 @@ export default function SignUpPage() {
                     variant="secondary"
                     className="bg-white/70 rounded-xl dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:placeholder-gray-400"
                   />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Password must be at least 6 characters long and contain both uppercase and lowercase letters.
+                  </p>
                   <FieldError />
                 </TextField>
               </Fieldset.Group>

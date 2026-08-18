@@ -1,6 +1,5 @@
 
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import {getServerSession} from "@/lib/getServerSession";
 import { stripe } from "@/lib/stripe";
 import { getRecipeStatus, confirmUpgrade } from "@/lib/actions/upgrade";
 import { getMyRecipesOverview } from "@/lib/actions/overview";
@@ -9,22 +8,27 @@ import Image from "next/image";
 import { Heart, ImageOff, Bookmark } from "lucide-react";
 
 const CustomerDashboard = async ({ searchParams }) => {
-  const params = await searchParams;
-  const headersList = await headers();
+   const params = await searchParams;
 
-  const { token } = await auth.api.getToken({ headers: headersList });
+   const session = await getServerSession();
 
-  if (params?.session_id) {
-    const checkoutSession = await stripe.checkout.sessions.retrieve(
-      params.session_id,
-    );
-    if (checkoutSession.status === "complete") {
-      await confirmUpgrade(token);
-    }
-  }
+   if (!session?.user) {
+     return (
+       <div className="text-center py-20 text-red-500">Need to login</div>
+     );
+   }
 
-  const status = await getRecipeStatus(token);
-  const overview = await getMyRecipesOverview(token);
+   if (params?.session_id) {
+     const checkoutSession = await stripe.checkout.sessions.retrieve(
+       params.session_id,
+     );
+     if (checkoutSession.status === "complete") {
+       await confirmUpgrade();
+     }
+   }
+
+  const status = await getRecipeStatus();
+  const overview = await getMyRecipesOverview();
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">

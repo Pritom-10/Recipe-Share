@@ -1,8 +1,9 @@
 "use server";
-
+import { getServerToken } from "@/lib/getServerToken";
 const SERVER_URL = process.env.SERVER_URL;
 
-export const getMyPurchased = async (token, page = 1, limit = 8) => {
+export const getMyPurchased = async (page = 1, limit = 8) => {
+  const token = await getServerToken();
   const res = await fetch(
     `${SERVER_URL}/customer/my-purchased?page=${page}&limit=${limit}`,
     {

@@ -4,9 +4,8 @@ import { useState, useTransition } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import { updateReportStatus } from "@/lib/actions/admin";
-import { authClient } from "@/lib/auth-client";
-import { CheckCircle, XCircle } from "lucide-react";
+import { updateReportStatus, removeReportedRecipe } from "@/lib/actions/admin";
+import { CheckCircle, XCircle, Trash2 } from "lucide-react";
 
 const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
   const [reports, setReports] = useState(initialReports);
@@ -30,10 +29,7 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
 
     startTransition(async () => {
       try {
-        const { data } = await authClient.token();
-        const token = data?.token;
-
-        const result = await updateReportStatus(reportId, status, token);
+        const result = await updateReportStatus(reportId, status);
         if (!result.success) throw new Error();
         toast.success("Report status updated successfully");
       } catch (error) {
@@ -43,10 +39,38 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
     });
   };
 
+  const handleRemoveRecipe = (report) => {
+    if (
+      !confirm(
+        `Are you sure you want to permanently delete the recipe "${report.recipeName}"?`,
+      )
+    )
+      return;
+
+    const prev = reports;
+    setReports((r) =>
+      r.map((rep) =>
+        rep._id === report._id ? { ...rep, status: "resolved" } : rep,
+      ),
+    );
+
+    startTransition(async () => {
+      try {
+        const result = await removeReportedRecipe(report._id);
+        if (!result.success) throw new Error();
+        toast.success("Recipe deleted successfully");
+      } catch (error) {
+        setReports(prev);
+        toast.error("Something went wrong");
+      }
+    });
+  };
+
   const statusStyle = {
-    pending: "bg-amber-50 text-amber-600",
-    resolved: "bg-emerald-50 text-emerald-600",
-    dismissed: "bg-gray-100 text-gray-500",
+    pending: "bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400",
+    resolved:
+      "bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400",
+    dismissed: "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400",
   };
 
   return (
@@ -69,7 +93,7 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
                   colSpan={5}
                   className="text-center py-10 text-gray-400 dark:text-gray-500"
                 >
-                  No reports found.
+                  No reports found. All recipes are in good standing.
                 </td>
               </tr>
             ) : (
@@ -115,7 +139,7 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
                             handleStatusChange(report._id, "resolved")
                           }
                           disabled={isPending}
-                          className="p-2 rounded-lg bg-gray-50 text-gray-600 hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
+                          className="p-2 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-950 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                           title="Resolve"
                         >
                           <CheckCircle className="w-4 h-4" />
@@ -125,10 +149,18 @@ const ReportsTable = ({ initialReports, totalPage, currentPage }) => {
                             handleStatusChange(report._id, "dismissed")
                           }
                           disabled={isPending}
-                          className="p-2 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors"
+                          className="p-2 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                           title="Dismiss"
                         >
                           <XCircle className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleRemoveRecipe(report)}
+                          disabled={isPending}
+                          className="p-2 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-rose-50 dark:hover:bg-rose-950 hover:text-rose-600 dark:hover:text-rose-400 transition-colors"
+                          title="Remove Recipe"
+                        >
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     )}

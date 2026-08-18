@@ -1,9 +1,10 @@
 "use server";
-
+import { getServerToken } from "@/lib/getServerToken";
 const SERVER_URL = process.env.SERVER_URL;
 
 
-export const addRecipe = async (data, token) => {
+export const addRecipe = async (data) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/add-recipe`, {
     method: "POST",
     headers: {
@@ -31,7 +32,8 @@ export const getFeaturedRecipes = async () => {
   return await res.json();
 };
 
-export const updateRecipe = async (id, recipeData, token) => {
+export const updateRecipe = async (id, recipeData) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/recipes/${id}`, {
     method: "PATCH",
     headers: {
@@ -43,7 +45,8 @@ export const updateRecipe = async (id, recipeData, token) => {
   return await res.json();
 };
 
-export const deleteRecipe = async (id, token) => {
+export const deleteRecipe = async (id) => {
+  const token = await getServerToken();
   const res = await fetch(`${SERVER_URL}/recipes/${id}`, {
     method: "DELETE",
     headers: {

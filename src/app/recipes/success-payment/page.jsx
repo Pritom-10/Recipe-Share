@@ -188,13 +188,7 @@ export default async function Success({ searchParams }) {
 
             
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/dashboard/my-purchased"
-                  className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold py-4 px-6 rounded-2xl hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 text-center flex items-center justify-center gap-2"
-                >
-                  View My Orders
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
+               
                 <Link
                   href="/recipes"
                   className="flex-1 bg-gray-100 text-gray-700 font-semibold py-4 px-6 rounded-2xl hover:bg-gray-200 transition-all duration-200 text-center hover:shadow-md"
