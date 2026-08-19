@@ -6,7 +6,7 @@ import { ChefHat, Clock, Gauge, ImageOff, ShoppingBag } from "lucide-react";
 import RecipeActions from "./RecipeActions";
 import ReportButton from "./ReportButton";
 
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const RecipeDetailsPage = async ({ params }) => {
   const { id } = await params;

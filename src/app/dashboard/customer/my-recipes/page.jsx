@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import MyRecipesGrid from "./MyRecipesGrid";
 import MyRecipesPagination from "./MyRecipesPagination";
 
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const LIMIT = 8;
 
 const MyRecipesPage = async ({ searchParams }) => {

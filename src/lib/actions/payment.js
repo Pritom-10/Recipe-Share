@@ -1,6 +1,6 @@
 "use server";
 
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const payment = async (data) => {
   const res = await fetch(`${SERVER_URL}/payment`, {

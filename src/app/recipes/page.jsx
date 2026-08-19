@@ -2,7 +2,7 @@ import RecipePagination from "./RecipePagination";
 import RecipeGrid from "./RecipeGrid";
 import RecipeFilters from "./RecipeFilters";
 
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const LIMIT = 8;
 
 const buildQuery = (params) => {

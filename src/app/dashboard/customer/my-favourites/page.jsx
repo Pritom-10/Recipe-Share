@@ -3,7 +3,7 @@ import { getServerSession } from "@/lib/getServerSession";
 import FavouritesGrid from "./FavouritesGrid";
 import MyRecipesPagination from "../my-recipes/MyRecipesPagination";
 
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const LIMIT = 8;
 
 const MyFavouritesPage = async ({ searchParams }) => {

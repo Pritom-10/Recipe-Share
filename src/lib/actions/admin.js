@@ -1,6 +1,6 @@
 "use server";
 import { getServerToken } from "@/lib/getServerToken";
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const getUsers = async (page = 1, search = "") => {
   const token = await getServerToken();
