@@ -1,36 +1,155 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🍳 RecipeHub — Recipe Sharing Platform
 
-## Getting Started
+RecipeHub is a full-stack recipe sharing platform where food enthusiasts can create, share, discover, and manage recipes. Users can publish their own recipes, browse recipes shared by others, save favorites, like and report recipes, and unlock unlimited recipe uploads with a premium membership.
 
-First, run the development server:
+**🔗 Live Site:** (https://recipe-share-three-dusky.vercel.app/)
+**🔗 Server Repository:** [https://github.com/Pritom-10/Recipe-Share-Server-Site]
+
+---
+
+## ✨ Features
+
+- 🔐 **Authentication** — Email/password and Google login via Better Auth, with JWT stored in an HTTPOnly cookie
+- 🍽️ **Recipe Management** — Create, update, and delete your own recipes with image upload (ImgBB)
+- ❤️ **Like & Favorite** — Like recipes and save them to your favorites list
+- 🚩 **Report System** — Report inappropriate recipes with a reason (Spam, Offensive Content, Copyright Issue)
+- 💳 **Premium Membership** — Stripe-powered checkout to unlock unlimited recipe uploads (free users limited to 2)
+- 🛒 **Recipe Purchase** — Buy individual recipes via Stripe checkout
+- 🛡️ **Admin Dashboard** — Manage users (block/unblock), manage recipes (edit/delete/feature), review reports, and view all transactions
+- 🔍 **Search & Filter** — Live search and filter recipes by category, cuisine, and preparation time using MongoDB `$in`
+- 📄 **Server-Side Pagination** — Efficient pagination across recipes, users, reports, and transactions
+- 🌗 **Dark / Light Theme** — Full theme toggle support across the app
+- 📱 **Fully Responsive** — Optimized for mobile, tablet, and desktop
+- 🎬 **Animations** — Smooth section animations powered by Framer Motion
+
+---
+
+## 🧰 Tech Stack
+
+**Frontend**
+- [Next.js](https://nextjs.org/) (App Router)
+- [React](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [HeroUI](https://heroui.com/) — UI component library
+- [Framer Motion](https://www.framer.com/motion/) — animations
+- [Better Auth](https://www.better-auth.com/) — authentication (email/password + Google OAuth, JWT plugin)
+- [Lucide React](https://lucide.dev/) / [React Icons](https://react-icons.github.io/react-icons/) — icons
+- [React Hot Toast](https://react-hot-toast.com/) — notifications
+- [Stripe](https://stripe.com/) — payments (premium membership + recipe purchase)
+
+**Backend** *(separate repository)*
+- Node.js, Express.js
+- MongoDB (native driver)
+- JWT verification middleware
+
+---
+
+## 📂 Project Structure
+
+```
+src/
+├── app/
+│   ├── (auth)/               # Sign in / Sign up pages
+│   ├── recipes/               # Browse recipes, recipe details
+│   ├── dashboard/
+│   │   ├── customer/          # User dashboard (overview, my recipes, favourites, purchased, profile)
+│   │   └── admin/             # Admin dashboard (users, recipes, reports, transactions)
+│   ├── api/                   # Route handlers (auth, payment)
+│   ├── layout.js              # Root layout
+│   └── page.jsx                # Home page
+├── components/                # Reusable UI components (Navbar, Footer, ThemeToggle, etc.)
+├── lib/
+│   ├── auth.js                 # Better Auth server config
+│   ├── auth-client.js          # Better Auth client config
+│   ├── actions/                # Server actions (recipe, admin, payment, upgrade, etc.)
+│   ├── getServerToken.js       # Server-side JWT helper (reads from HTTPOnly cookie)
+│   ├── getServerSession.js     # Server-side session helper
+│   └── imageUpload.js          # ImgBB upload helper
+└── middleware.js                # Route protection middleware
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- A MongoDB Atlas cluster
+- A Stripe account (test mode is fine)
+- A Google Cloud project with OAuth credentials
+- An ImgBB API key
+
+### Installation
+
+```bash
+git clone https://github.com/your-username/recipehub-client.git
+cd recipehub-client
+npm install
+```
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory with the following:
+
+```env
+# MongoDB
+MONGODB_URI=your_mongodb_connection_string
+
+# Better Auth
+BETTER_AUTH_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# Backend API
+SERVER_URL=http://localhost:5000
+
+# Stripe
+STRIPE_SECRET_KEY=your_stripe_secret_key
+
+# Image Upload
+NEXT_PUBLIC_IMGBB_API_KEY=your_imgbb_api_key
+```
+
+> ⚠️ **Never commit `.env.local` to version control.** It is already included in `.gitignore`.
+
+### Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+> This project depends on the [RecipeHub server](https://github.com/your-username/recipehub-server) running separately. Make sure it's running before testing authenticated features.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🔑 Admin Credentials (for review)
 
-To learn more about Next.js, take a look at the following resources:
+```
+Email: pritomshiro@gmail.com
+Password: 15781692Scjk
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔒 Security Notes
 
-## Deploy on Vercel
+- JWT tokens are generated by Better Auth and delivered via an **HTTPOnly cookie**, preventing client-side JavaScript access.
+- All dashboard-facing API routes are protected by a `verifyToken` / `verifyAdmin` middleware on the server.
+- MongoDB credentials and all secrets are stored exclusively in environment variables, never hard-coded.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📌 Notes
+
+- Free users can add a maximum of **2 recipes**. Upgrading to Premium via Stripe unlocks unlimited recipe uploads.
+- Admins can feature recipes from the Manage Recipes panel — featured recipes appear in the **Featured Recipes** section on the home page.
+- Reported recipes can be resolved, dismissed, or removed directly from the admin Reports panel.
+
+---
+
+## 📄 License
+
+This project was built as part of a technical assessment and is not licensed for commercial use.
